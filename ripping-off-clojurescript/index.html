@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<!-- 2015-03-22 dom 23:08 -->
+<meta  charset="utf-8">
+<meta  htto-equiv="X-UA-Compatible" content="chrome=1">
+<meta  name="generator" content="Org-mode with org-ioslide">
+<meta  name="author" content="Alejandro Gómez">
+
+
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--This one seems to work all the time, but really small on ipad-->
+<!--<meta name="viewport" content="initial-scale=0.4">-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" media="all" href="theme/css/default.css">
+<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+<link rel="stylesheet" media="all" href="theme/css/small-icon.css">
+<base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+<script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+
+   <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+<script src="js/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML,local/local" type="text/javascript"></script>
+</head>
+<body style="opacity: 0">
+<slides class="layout-widescreen">
+<slide class="title-slide segue nobackground">
+       <aside class="gdbar"><img src="images/clojure-logo.png"></aside>
+       <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+       <hgroup class="auto-fadein">
+         <h1 data-config-title><!-- populated from slide_config.json --></h1>
+         <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+         <p data-config-presenter><!-- populated from slide_config.json --></p>
+       </hgroup>
+    </slide>
+
+</slide>
+<slide id="sec-0-1"  >
+<hgroup class="">
+       <h2 class="nil ">Agenda</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-1">
+<ul>
+<li>The problem with traditional JavaScript
+</li>
+<li>What does Clojure(Script) bring to the table?
+</li>
+<li>Stealing from ClojureScript
+<ul>
+<li>Scoping
+</li>
+<li>Data &amp; State
+</li>
+<li>Functional UIs with React
+</li>
+<li>Asynchrony &amp; Communication
+</li>
+</ul>
+</li>
+<li>Recasting Flux
+</li>
+</ul>
+
+<blockquote>
+<p>
+Good artists copy, great artists steal.<br >
+</p>
+
+<p>
+<span class='alignright'>&#x2013; Pablo Picasso</span><br  />
+</p>
+</blockquote>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-0-2"  >
+<hgroup class="">
+       <h2 class="nil ">JavaScript</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-2">
+<ul>
+<li>Little dynamic language
+</li>
+<li>Traditionally used for enhancing websites with more interactivity
+</li>
+<li>Websites have become traditional desktop <strong>heavy clients</strong>
+</li>
+<li>Rigorous software engineering is needed for building web applications
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-0-3"  >
+<hgroup class="">
+       <h2 class="nil ">JavaScript frameworks</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-3">
+<ul>
+<li><a href="https://twitter.com/NeckbeardHacker/status/569883173531873280">Churn</a> in JS-land is ridiculous
+</li>
+<li>Almost identical frameworks came out all the time
+<ul>
+<li>Imperative
+</li>
+<li>Mutability as the default
+</li>
+<li>Imposed architecture
+</li>
+<li>Reimplementation of standalone functionality
+<ul>
+<li>Models &amp; Collections
+</li>
+<li>Routing
+</li>
+<li>Module systems
+</li>
+<li>HTTP clients
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-0-4"  >
+<hgroup class="">
+       <h2 class="nil ">The problem with the language</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-4">
+<ul>
+<li>Fundamental, unsolvable flaws
+</li>
+<li>Many languages translate to JS
+<ul>
+<li>Convenient syntax
+<ul>
+<li>CoffeeScript
+</li>
+<li>Wisp
+</li>
+</ul>
+</li>
+<li>Similar semantics
+<ul>
+<li>Python
+</li>
+</ul>
+</li>
+<li>Very different, reasonable semantics
+<ul>
+<li>ClojureScript
+</li>
+<li>PureScript
+</li>
+<li>Elm
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-0-5"  >
+<hgroup class="">
+       <h2 class="nil ">Patching JavaScript</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-5">
+<ul>
+<li>This talk assumes you cannot escape JS, if you can, use ClojureScript
+</li>
+<li>We can use ES6 and ES7 now with <a href="http://babeljs.io">Babel</a>
+<ul>
+<li>Maps and Sets
+</li>
+<li>Promises
+</li>
+<li>Generators
+</li>
+<li>Destructuring
+</li>
+<li>Default arguments
+</li>
+<li><code>arguments</code> is dead, long live <code>...</code>
+</li>
+<li>Tail call optimization
+</li>
+<li>Modules
+</li>
+</ul>
+</li>
+<li>ES6+ is a reasonable language for writing applications
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-0-6"  >
+<hgroup class="">
+       <h2 class="nil ">What I ♥ about Clojure(Script)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-0-6">
+<ul>
+<li>Functional programming
+</li>
+<li>State management
+</li>
+<li>Immutability by default
+</li>
+<li>Communicating Sequential Processes
+</li>
+<li>Macros
+</li>
+<li>Preference of composition of libraries over frameworks
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Let's Steal!</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-1"  >
+<hgroup class="">
+       <h2 class="nil ">Scoping</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-1">
+<ul>
+<li>JavaScript's <code>var</code> keyword has very tricky scoping rules
+</li>
+<li>Assigning to a name without declaring with <code>var</code> creates a global name
+</li>
+<li>ES6 introduces <code>let</code> and <code>const</code>, don't use <code>var</code> again
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="clojurescript">
+(let [x 21]
+  (* 2 x))
+</pre>
+
+</div>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let x = 21;
+x * 2;
+</pre>
+
+</div>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="clojurescript">
+(def ^:const x 21)
+</pre>
+
+</div>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+const x = 21;
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Data &amp; State</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1-2">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-2-1"  >
+<hgroup class="">
+       <h2 class="nil ">Mutable Old JavaScript Objects (MOJO)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-1">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let state = {
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+};
+</pre>
+
+</div>
+
+<ul>
+<li>Can be changed from anywhere with a reference to it
+<ul>
+<li>There's no telling where changes come from
+</li>
+<li>May transition to invalid value
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+state.user.lastName = "Lovelace";
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-2"  >
+<hgroup class="">
+       <h2 class="nil ">Immutable data structures</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-2">
+<ul>
+<li>Memory and time efficient
+<ul>
+<li>Structural sharing
+</li>
+<li>"Modified" with a few array lookups and copies
+</li>
+</ul>
+</li>
+<li>Equality checks are simple reference comparisons
+</li>
+<li>Two major implementations
+<ul>
+<li><a href="https://github.com/swannodette/mori">mori</a> brings ClojureScript data structures and supporting APIs to JS
+<ul>
+<li>Fast &amp; battle-tested
+</li>
+<li>Functional &amp; rich API
+</li>
+</ul>
+</li>
+<li><a href="https://github.com/facebook/immutable-js">immutable-js</a> is Facebook's implementation
+<ul>
+<li>Slower than <code>mori</code>
+</li>
+<li>Object-oriented API
+</li>
+<li>Supports custom record definitions
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-3"  >
+<hgroup class="">
+       <h2 class="nil ">Immutable data structures</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-3">
+<ul>
+<li>I'll be using <code>immutable-js</code> for the custom record support
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {fromJS} from "immutable";
+
+let state = fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+});
+</pre>
+
+</div>
+
+<ul>
+<li>Using the same patterns that with MOJOs is not much of an improvement
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+state = state.setIn(["user", "lastName"], "Lovelace");
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-4"  >
+<hgroup class="">
+       <h2 class="nil ">Models</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-4">
+<ul>
+<li>Traditional JS frameworks wrap mutable objects in <em>models</em>
+<ul>
+<li>Read and write
+</li>
+<li>Observation capabilities (or dirty checking)
+</li>
+</ul>
+</li>
+<li>Opaque data structures
+</li>
+<li>Couple your data types and their transformation to the framework
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {Model} from "backbone";
+
+const User = Model.extend({
+    realName() {
+        return `${this.get("firstName") ${this.get("lastName")}}`
+    }
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-5"  >
+<hgroup class="">
+       <h2 class="nil ">Modeling with Immutable data structures</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-5">
+<ul>
+<li><code>immutable-js</code> gives us a handful of data structures: <code>Map</code>, <code>Set</code>, <code>List</code> and more
+</li>
+<li>We can model our data types with plain <code>Map</code>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {Map as ImmutableMap} from immutable;
+
+let user = ImmutableMap({ firstName: "Ada", lastName: "Byron" });
+
+// :: ImmutableMap -&gt; String
+function realName(u){
+    return `${u.get("firstName")} ${u.get("lastName")}`;
+}
+
+realName(user);
+//=&gt; "Ada Byron"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-6"  >
+<hgroup class="">
+       <h2 class="nil ">Records</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-6">
+<ul>
+<li>Like CLJS' <code>defrecord</code>, <code>immutable-js</code> lets us define records
+</li>
+<li>We can specify the set of legal keys and give them default values
+</li>
+<li>Will throw an error if you try to <code>set</code> a key that isn't legal
+</li>
+<li>Define read-only properties for plain old property access
+</li>
+<li>Support adding methods to them (but don't do it)
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-7"  >
+<hgroup class="">
+       <h2 class="nil ">Records</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-7">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {Record} from immutable;
+
+const User = Record({ firstName: "", lastName: "" });
+
+let user = new User({ firstName: "Grace", lastName: "Hopper" });
+
+// :: User -&gt; String
+function realName(u){
+    return `${u.get("firstName")} ${u.get("lastName")}`;
+}
+
+realName(user);
+//=&gt; "Grace Hopper"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-8"  >
+<hgroup class="">
+       <h2 class="nil ">From Models to the Atom</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-8">
+<ul>
+<li>CLJ separates <strong>identity</strong> and <strong>value</strong> with reference types
+<ul>
+<li>Each with its own semantics, only the <a href="http://clojure.org/atoms">Atom</a> is available in CLJS
+</li>
+</ul>
+</li>
+<li>Atoms are mutable references to an immutable value
+<ul>
+<li>The immutable value they point to may change over time
+</li>
+</ul>
+</li>
+<li>Support observation and validation
+</li>
+<li>Ported to JavaScript in my <a href="https://github.com/dialelo/atomo">atomo</a> library
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+
+</slide>
+<slide id="sec-1-2-9"  >
+<hgroup class="">
+       <h2 class="nil ">Atoms</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-9">
+<ul>
+<li>We can represent time-varying values with atoms
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {atom} from "atomo";
+import {fromJS} from "immutable";
+
+let state = atom(fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+}));
+
+state.swap(st =&gt; st.setIn(["user", "lastName"], "Lovelace"));
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-10"  >
+<hgroup class="">
+       <h2 class="nil ">Atom API</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-10">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let a = atom(20);
+
+// We can get the value they point to with `deref`
+a.deref();
+//=&gt; 20
+
+// We can change the value they point to with `reset`
+a.reset(21);
+a.deref();
+//=&gt; 21
+
+// We can apply a transformation to the value they contain with `swap`
+a.swap(x =&gt; x * 2);
+a.deref();
+//=&gt; 42
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-11"  >
+<hgroup class="">
+       <h2 class="nil ">Atom API</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-11">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let a = atom(20);
+
+function watch(theAtom, oldVal, newVal) {
+    console.log("old:", oldVal, "new:", newVal)
+}
+
+a.addWatch(watch);
+
+a.reset(21);
+//=&gt; "old: 20 new: 21"
+a.swap(x =&gt; x * 2);
+//=&gt; "old: 21 new: 42"
+
+a.removeWatch(watch);
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-2-12"  >
+<hgroup class="">
+       <h2 class="nil ">Remembering an Atom's history</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-2-12">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {List} from "immutable";
+import {atom} from "atomo";
+
+let state = atom(fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+}));
+
+let history = atom(new List());
+
+state.addWatch((theAtom, oldValue, newValue) =&gt; {
+    history.swap(hs =&gt; hs.push(oldValue));
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-1-3" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Functional UIs with React</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1-3">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-3-1"  >
+<hgroup class="">
+       <h2 class="nil ">React</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-3-1">
+<ul>
+<li>A <strong>library</strong> for building user interfaces
+</li>
+<li>Abstracts users from manual DOM manipulation
+</li>
+<li>Allows us to create declarative visual components that compose very well
+</li>
+<li>Compose components into a tree
+</li>
+<li>Re-render every time the state changes (conceptually)
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="jsx">
+import React from "react";
+
+const App = React.createClass({
+    render(){
+        return &lt;p&gt;Hello, React!&lt;/p&gt;;
+    }
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-3-2"  >
+<hgroup class="">
+       <h2 class="nil ">React</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-3-2">
+<ul>
+<li><code>render</code> generates a data structure that represents the desired DOM state
+</li>
+<li>Our views have turned into pure functions!
+</li>
+</ul>
+<pre class="example">
+render(data) = view
+</pre>
+<ul>
+<li>When re-rendering, React is able to diff such data structures
+</li>
+<li>After diffing, it makes the minimum amount of changes to the real DOM
+</li>
+</ul>
+<pre class="example">
+diff(view1, view2) = changeset
+</pre>
+<ul>
+<li>Diffing works in both directions
+</li>
+</ul>
+<pre class="example">
+diff(view2, view1) = changeset
+</pre>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-3-3"  >
+<hgroup class="">
+       <h2 class="nil ">React</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-3-3">
+<ul>
+<li>Support passing properties (called <code>props</code>) and local state
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import React from "react";
+
+const Greeting = React.createClass({
+    render(){
+        return &lt;p&gt;Hello, {this.props.name}!&lt;/p&gt;;
+    }
+});
+
+React.render(&lt;Greeting name="Ada" /&gt;, document.querySelector("body"));
+</pre>
+
+</div>
+<ul>
+<li>Our <code>render</code> function is in reality:
+</li>
+</ul>
+<pre class="example">
+render(props, state) = view
+</pre>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-3-4"  >
+<hgroup class="">
+       <h2 class="nil ">React</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-3-4">
+<ul>
+<li>We'll see how to combine React with our state management strategy in a moment
+</li>
+<li>Here is a teaser:
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import React from "react";
+import {App} from "./views";
+
+function render(state){
+    React.render(&lt;App state={state} /&gt;, document.querySelector("body"));
+}
+let initialState = /* ... */;
+render(initialState);
+// Call `render` with new state whenever it changes
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Error Handling</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1-4">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-4-1"  >
+<hgroup class="">
+       <h2 class="nil ">Promise</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-1">
+<ul>
+<li>ES6 comes with the <code>Promise</code> type, which represents a eventual value
+</li>
+<li>The computation for calculating such value may fail
+</li>
+<li>Such computation may be asynchronous
+</li>
+<li>A <code>Promise</code> is one of these states:
+<ul>
+<li><em>pending</em>: initial state
+</li>
+<li><em>fulfilled</em>: the computation was succesful
+</li>
+<li><em>rejected</em>: the computation failed
+</li>
+<li><em>settled</em>: the computation is either fulfilled or rejected
+</li>
+</ul>
+</li>
+<li><code>Promise</code> forms a monad so we can sequence promise-returning computations and get a <code>Promise</code> back
+</li>
+<li>It's API may surprise you if you come from Haskell or Scala
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-2"  >
+<hgroup class="">
+       <h2 class="nil ">Promise basic API</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-2">
+<ul>
+<li><code>Promise.then(onSuccess, onError)</code> allows us to chain computations
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let p = new Promise((resolve, reject) =&gt; resolve(21))
+
+p.then(x =&gt; x * 2)
+ .then(y =&gt; console.log(y))
+//=&gt; "42"
+</pre>
+
+</div>
+
+<ul>
+<li><code>Promise.catch(onError)</code> allows us to handle rejected promises
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let p = new Promise((resolve, reject) =&gt; reject("I failed"))
+
+p.catch(err =&gt; console.log(err))
+//=&gt; "I failed"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-3"  >
+<hgroup class="">
+       <h2 class="nil ">Promises: A practical example</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-3">
+<ul>
+<li>Imagine the following <code>Promise</code>-returning functions
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+/*
+   type Username = String
+   type Password = String
+   type Token = String
+*/
+
+// :: Username -&gt; Password -&gt; Promise Token
+function getAuthToken(username, password) { /* ... */ }
+
+// :: Token -&gt; Promise User
+function getUserInfo(token) { /* ... */ }
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-4"  >
+<hgroup class="">
+       <h2 class="nil ">Promises: A practical example</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-4">
+<ul>
+<li>We want to get a user's information and log its real name
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+let username = "ada.byron",
+    password = "I invented programming";
+
+getAuthToken(username, password)
+    .then(token =&gt; getUserInfo(token)) // sequencing promise-returning computations
+    .then(user =&gt; realName(user))      // transforming value inside the promise
+    .then(name =&gt; console.log(name))
+    .catch(err =&gt; console.error(err))  // handling the error case
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-5"  >
+<hgroup class="">
+       <h2 class="nil ">Promises: The problems</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-5">
+<ul>
+<li>Force us to split our logic into small functions
+<ul>
+<li>which are often unrelated and not reusable in other contexts
+</li>
+<li>to represent an atomic piece of logic that belongs together
+</li>
+</ul>
+</li>
+<li>Complect sequencing (<code>bind</code> or <code>flatMap</code>) with transformation (<code>map</code>)
+</li>
+<li>Aren't that much of an improvement over Continuation Passing Style with callbacks and errbacks
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-6"  >
+<hgroup class="">
+       <h2 class="nil ">ES7 to the rescue</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-6">
+<ul>
+<li><code>async</code> and <code>await</code> keywords solve the logic obscuring problem
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+async function logRealName(usr, pass){
+    let token = await getAuthToken(usr, pass),
+        user = await getUserInfo(token);
+    console.log(realName(user));
+}
+
+let username = "ada.byron",
+    password = "I invented programming";
+
+logRealName(username, password).catch(err =&gt; console.error(err));
+</pre>
+
+</div>
+
+<ul>
+<li>We can now compose computations that may be asynchronous and fail with a nice sequential syntax
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-7"  >
+<hgroup class="">
+       <h2 class="nil ">First-class errors</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-7">
+<ul>
+<li>If a <code>Promise</code> is rejected inside an <code>async</code> function, the value is thrown inside the function
+<ul>
+<li>This means that we can use <code>try</code> and <code>catch</code> inside <code>async</code> functions
+</li>
+</ul>
+</li>
+<li>Error handling inside computations obscure our logic too
+</li>
+<li>We can reify the errors that can happen into uniquely identifiable <strong>values</strong> with ES6 <code>Symbol</code>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+const ERRORS = {
+    MISSING_DATA: Symbol.for("missing-data"),
+    WRONG_CREDENTIALS: Symbol.for("wrong-credentials"),
+    NETWORK_ERROR: Symbol.for("network-error")
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-8"  >
+<hgroup class="">
+       <h2 class="nil ">First-class errors</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-8">
+<ul>
+<li>We can compose logic without caring about errors that may happen
+</li>
+<li>When executing computations that may fail in our system, the caller is responsible of handling success and failure
+</li>
+<li>Since our errors are reified we can make decissions depending on the error we got
+</li>
+<li>We could use plain JS <code>Error</code> instances for rejecting promises
+<ul>
+<li>it has nice properties like capturing the stack (in some environments)
+</li>
+</ul>
+</li>
+<li>Another approach would be to make our own error type
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-9"  >
+<hgroup class="">
+       <h2 class="nil ">Error type</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-9">
+<ul>
+<li>Given we implement the error type
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {Record} from "immutable";
+
+const Err = Record({ code: null, data: null });
+
+function err(code, data) {
+    return new Err({ code, data });
+}
+</pre>
+
+</div>
+<ul>
+<li>We can <code>reject</code> promises with an <code>Err</code> value
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+new Promise((resolve, reject) =&gt; reject(err(ERRORS.WRONG_CREDENTIALS)))
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-4-10"  >
+<hgroup class="">
+       <h2 class="nil ">Interpreting errors</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-4-10">
+<ul>
+<li>When running promise-returning computations, we can choose what to do based on the <code>Err</code> code
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// :: Err -&gt; String
+function message(e) {
+    switch (e.code) {
+        case ERRORS.MISSING_DATA:
+            return "Username and password must be supplied";
+        case ERRORS.WRONG_CREDENTIALS:
+            return "Wrong username or password";
+        case ERRORS.NETWORK_ERROR:
+            return "There was a problem communicating with the server, try again";
+        default:
+            return "Impossible has happened";
+    }
+}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Asynchrony &amp; Communication</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1-5">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-5-1"  >
+<hgroup class="">
+       <h2 class="nil ">Communicating Sequential Processes</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-1">
+<ul>
+<li>Based on <a href="http://es.wikipedia.org/wiki/C._A._R._Hoare">Tony Hoare's</a> work
+</li>
+<li>Mathematic formalism for concurrency
+</li>
+<li>Great substrate for representing asynchronous computations
+</li>
+<li>Popularized by <a href="https://golang.org">Go</a> and Clojure(Script)
+</li>
+<li>Available in JS with the <a href="https://github.com/ubolonton/js-csp">js-csp</a> library
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-2"  >
+<hgroup class="">
+       <h2 class="nil ">Channels</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-2">
+<ul>
+<li>First class queue-like objects
+</li>
+<li>Multiple readers and writers
+<ul>
+<li>can either take or put one value at a time
+</li>
+</ul>
+</li>
+<li>Twofold responsability:
+<ul>
+<li>conveyance of values
+</li>
+<li>synchronization point
+</li>
+</ul>
+</li>
+<li>Decouple producers of values from consumers
+</li>
+<li>Support multiple synchronization semantics through buffering
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-3"  >
+<hgroup class="">
+       <h2 class="nil ">What can channels do?</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-3">
+<ul>
+<li>We can put and take values asynchronously
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {chan, putAsync, takeAsync} from "js-csp";
+
+let ch = chan();
+
+takeAsync(ch, (value) =&gt; console.log("Got ", value));
+
+// `ch` now has a pending take, let's try putting a value in it
+putAsync(ch, 42);
+//=&gt; "Got 42"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-4"  >
+<hgroup class="">
+       <h2 class="nil ">What can channels do?</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-4">
+<ul>
+<li>Puts and takes can happen in any order
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {chan, putAsync, takeAsync} from "js-csp";
+
+let ch = csp.chan();
+
+// Async puts accept a callback too
+putAsync(ch, 42, () =&gt; console.log("Just put 42"));
+putAsync(ch, 43, () =&gt; console.log("One more"));
+
+takeAsync(ch, (value) =&gt; console.log("Got ", value))
+//=&gt; "Got 42"
+//=&gt; "Just put 42"
+takeAsync(ch, (value) =&gt; console.log("Got ", value))
+//=&gt; "Got 43"
+//=&gt; "One more"x
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-5"  >
+<hgroup class="">
+       <h2 class="nil ">Closing channels</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-5">
+<ul>
+<li>Channels can be closed, after which
+<ul>
+<li>pending puts will fail
+</li>
+<li>pending takes will receive a "closed" value
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {chan, takeAsync, putAsync, CLOSED} from "js-csp";
+
+let ch = chan();
+
+takeAsync(ch, (value) =&gt; console.log("Channel closed? ", value === CLOSED));
+takeAsync(ch, (value) =&gt; console.log("Channel closed? ", value === CLOSED));
+
+putAsync(ch, 42);
+//=&gt; "Channel closed? false"
+ch.close();
+//=&gt; "Channel closed? true"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-6"  >
+<hgroup class="">
+       <h2 class="nil ">Processes</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-6">
+<ul>
+<li>Piece of logic that uses channels for communication &amp; synchronization
+</li>
+<li>Puts and takes inside processes will "block" until the operation completes
+</li>
+<li>There are a form of cooperative multitasking
+</li>
+<li>We can create <strong>thousands</strong> and coordinate via channels
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-7"  >
+<hgroup class="">
+       <h2 class="nil ">Processes</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-7">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {go, chan, put, take} from "js-csp";
+
+let ch = chan();
+
+go(function*(){
+    console.log("[a] Starting a goroutine");
+    let value = yield take(ch); // equivalent to 'yield ch'
+    console.log("[a] Got ", value);
+});
+go(function*(){
+    console.log("[b] Starting another goroutine");
+    yield put(ch, 42);
+});
+//=&gt; "[a] Starting a goroutine"
+//=&gt; "[b] Starting another goroutine"
+//=&gt; "[a] Got 42"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-8"  >
+<hgroup class="">
+       <h2 class="nil ">Choice</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-8">
+<ul>
+<li>Given multiple channnel operations, we can perform a non-deterministic choice between them
+</li>
+<li>Only one operation will succeed
+</li>
+<li>In case various operations are ready to be performed, it'll be chosen pseudo-randomly by default
+</li>
+<li>Combined with <code>js-csp</code>'s <code>timeout</code> function, we can can execute operations on a channel if they are fast enough
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-9"  >
+<hgroup class="">
+       <h2 class="nil ">Timeout (1/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-9">
+<ul>
+<li>Our fist <code>go</code> block will wait a second before putting a value into <code>ch</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {chan, go, timeout, put, alts} from "js-csp";
+
+let ch = chan();
+
+go(function*(){
+    console.log("[a] Gonna sleep for a second");
+    yield timeout(1000);
+    console.log("[a] Now I'm ready to put a value");
+    yield put(ch, 42);
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-5-10"  >
+<hgroup class="">
+       <h2 class="nil ">Timeout (2/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-5-10">
+<ul>
+<li>The second <code>go</code> block will wait at most 300 miliseconds for a value on <code>ch</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+go(function*(){
+    let cancel = timeout(300);
+
+    // `alts` returns an object with the channel on which the operation has been
+    // performed and its result
+    let {channel, result} = yield alts([ch, cancel]);
+
+    if (channel === cancel) console.log("[b] Too slow, take was cancelled");
+    else                    console.log("[b] Got ", result);
+});
+//=&gt; "[a] Gonna sleep for a second"
+//=&gt; "[a] Now I'm ready to put a value"
+//=&gt; "[b] Too slow, take was cancelled"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6" class=" segue dark quote nobackground" style="background-image: url(nil)">
+<aside class="gdbar right bottom"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Recasting Flux</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-1-6">
+
+
+</article>
+
+</slide>
+<slide id="sec-1-6-1"  >
+<hgroup class="">
+       <h2 class="nil ">Flux</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-1">
+<article class="flexbox vcenter">
+
+<figure>
+<p><img src="./images/flux-diagram.png" alt="flux-diagram.png" width="800px" height="400px">
+</p>
+</figure>
+</article>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-2"  >
+<hgroup class="">
+       <h2 class="nil ">Flux in a nutshell</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-2">
+<ul>
+<li><strong>Views</strong> read data from <strong>Stores</strong> and represent it, updating themselves when stores change
+</li>
+<li><strong>Views</strong> trigger <strong>Actions</strong>, which have a type and an optional payload
+</li>
+<li>A <strong>Dispatcher</strong> fans-out actions to the <strong>Stores</strong>
+</li>
+<li><strong>Stores</strong> respond to actions modifying their state
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-3"  >
+<hgroup class="">
+       <h2 class="nil ">Flux flaws</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-3">
+<ul>
+<li>It complects state management and the bussiness logic for causing state changes
+</li>
+<li>State is scattered through multiple stores which look modular but they end up
+knowing about each other
+</li>
+<li>The stores are coupled with the dispatching mechanism
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-4"  >
+<hgroup class="">
+       <h2 class="nil ">From Stores to Global Immutable State</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-4">
+<ul>
+<li>Instead of having multiple stores, we represent application state in a global atom like in <a href="https://github.com/omcljs/om">Om</a>
+</li>
+<li>Such atom contains an immutable map, wherein keys can represent different domains of the application
+</li>
+<li>Atom are observable, which allows us to trigger a re-render when they are changed
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// state.js
+import {atom} from "atomo";
+
+function getInitialState() { /* ... */ }
+
+export const state = atom(getInitialState());
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-5"  >
+<hgroup class="">
+       <h2 class="nil ">Global state breaks modularity</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-5">
+<ul>
+<li>We don't want views to know about the shape of all the state
+</li>
+<li>Views usually display a subset of the global state tree
+</li>
+<li>We need the ability to focus on paths inside the global immutable state
+</li>
+<li>Om solves this problem with an abstraction called <a href="https://github.com/omcljs/om/wiki/Cursors">Cursor</a>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-6"  >
+<hgroup class="">
+       <h2 class="nil ">Cursors</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-6">
+<ul>
+<li>Lets us focus on a path inside the global immutable state
+</li>
+<li>Can be derived from an atom or another cursor, allowing us to refine the path
+</li>
+<li>Available in JS with my <a href="https://github.com/dialelo/kurtsore">kurtsore</a> library
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import {cursor} from "kurtsore";
+import {is} from "immutable";
+
+let c = cursor(state),
+    albums = c.derive('albums'),
+    playlists = c.derive('playlists');
+is(albums.deref(), state.deref().get('albums'));
+//=&gt; true
+is(playlists.deref(), state.deref().get('playlists'));
+//=&gt; true
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-7"  >
+<hgroup class="">
+       <h2 class="nil ">Views &amp; Cursors</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-7">
+<ul>
+<li>Cursors save a snapshot of the state they point to when they are created
+<ul>
+<li>if we re-create cursors in each re-render, we can implement a very efficient <code>shouldComponentUpdate</code>
+<ul>
+<li>see my <a href="https://github.com/dialelo/react-kurtsore">react-kurtsore</a> library
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Feed a cursor without a path to the top-level component
+</li>
+<li>Refine it when passing it to sub-components
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-8"  >
+<hgroup class="">
+       <h2 class="nil ">Views &amp; Cursor: A practical example (1/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-8">
+<ul>
+<li>We have a view that represents <strong>one</strong> album, receiving a cursor
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// views.js
+import React from "react";
+import {CursorPropsMixin} from "react-kurtsore";
+
+export const Album = React.createClass({
+    mixins: [ CursorPropsMixin ],
+
+    render(){
+        let album = this.props.album.deref();
+        return &lt;li&gt;{album.get('artist')} - {album.get('title')}&lt;/li&gt;;
+    }
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-9"  >
+<hgroup class="">
+       <h2 class="nil ">Views &amp; Cursor: A practical example (2/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-9">
+<ul>
+<li>The top-level <code>Albums</code> view passes refined cursors to <code>Album</code> components
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+export const Albums = React.createClass({
+    mixins: [ CursorPropsMixin ],
+
+    render(){
+        let albums = this.props.albums.deref(),
+            cursors = albums.map((a, idx) =&gt; this.props.albums.derive(idx));
+        return (
+            &lt;ul&gt;
+                {cursors.map((a, idx) =&gt; &lt;Album key={idx} album={a} /&gt;)}
+            &lt;/ul&gt;
+        );
+    }
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-10"  >
+<hgroup class="">
+       <h2 class="nil ">Actions</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-10">
+<ul>
+<li>As in Flux, actions can be identified with unique constant values
+</li>
+<li>Like with the errors, we can either use strings or ES6 symbols
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+//  constants.js
+export const ACTIONS = {
+    LOG_IN: Symbol.for("user:log-in"),
+    LOG_IN_FAILED: Symbol.for("user:log-in-failed"),
+    LOG_OUT: Symbol.for("user:log-out")
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-11"  >
+<hgroup class="">
+       <h2 class="nil ">Actions</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-11">
+<ul>
+<li>We can represent actions as a data type with an optional payload
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// actions.js
+import {Record} from "immutable";
+
+export const Action = Record({type: null, payload: null});
+
+export function action(type, payload){
+    return new Action({type, payload});
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-12"  >
+<hgroup class="">
+       <h2 class="nil ">Getting rid of the Dispatcher</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-12">
+<ul>
+<li>In Flux: a singleton coupled to stores for triggering state transitions
+</li>
+<li>Differ from a pub-sub mechanism in that they fan-out every action to all stores
+</li>
+<li>I suggest replacing the dispatcher with CSP-based pub-sub mechanism
+<ul>
+<li><em>publisher</em>: A channel where the actions are published
+</li>
+<li><em>publication</em>: A object derived from the <em>publisher</em> with a topic-extracting function
+</li>
+</ul>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-13"  >
+<hgroup class="">
+       <h2 class="nil ">Pub-sub with CSP</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-13">
+<ul>
+<li>Given a publication and a topic, we can provide a channel wherein values with such topic will be published
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// pubsub.js
+import {atom} from "atomo";
+import {chan, operations, putAsync} from "js-csp";
+
+export const publisher = atom(chan());
+
+export function publication(topicFn){
+    return operations.pub.publication(publisher.deref(), topicFn);
+};
+
+export function publish(msg){
+    putAsync(publisher.deref(), msg);
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-14"  >
+<hgroup class="">
+       <h2 class="nil ">Subscribing to actions (1/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-14">
+<ul>
+<li>We create a channel where we'll receive the actions we're insterested in
+</li>
+<li>We create a publication that will dispatch on the action type
+<ul>
+<li>We subscribe our channel to the actions we want to listen
+</li>
+</ul>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import csp from "js-csp";
+import pubsub from "./pubsub";
+import {ACTIONS} from "./constants";
+
+let userChan = csp.chan(),
+    pub = pubsub.publication((v) =&gt; v.get("type"));
+
+pub.sub(ACTIONS.LOG_IN, userChan);
+pub.sub(ACTIONS.LOG_OUT, userChan);
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-15"  >
+<hgroup class="">
+       <h2 class="nil ">Subscribing to actions (2/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-15">
+<ul>
+<li>Once we are subscribed to the relevant actions, we can spawn a process for <strong>interpreting</strong> such actions
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+csp.go(function*(){
+    let action = yield userChan;
+    while (action !== csp.CLOSED) {
+        let {type, payload} = action;
+
+        if (type === ACTIONS.LOG_IN) console.log(payload, " just logged in.")
+        else                         console.log("The user just logged out.");
+
+        action = yield userChan;
+    }
+});
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-16"  >
+<hgroup class="">
+       <h2 class="nil ">Publishing actions</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-16">
+<ul>
+<li>Views shouldn't be coupled to the pub-sub machinery
+</li>
+<li>Also, since some actions may require asynchronous computations, we encapsulate action publishing in high-level API
+<ul>
+<li>Flux calls this action creations
+</li>
+</ul>
+</li>
+<li>We also gain the benefit of testing views in isolation, asserting that they consume our high-level APIs in a certain way
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-17"  >
+<hgroup class="">
+       <h2 class="nil ">Publishing actions</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-17">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript//">
+import {ACTIONS} from "./constants";
+import {action} from "./actions";
+import pubsub from "./pubsub";
+import http from "./http";
+import {fromJS} from "immutable";
+
+export function tryLogIn(username, password){
+    http.post("/login", {username, password})
+        .then((user) =&gt; pubsub.publish(action(ACTIONS.LOG_IN, fromJS(user))))
+        .catch((errors) =&gt; pubsub.publish(action(ACTIONS.LOG_IN_FAILED, fromJS(errors))))
+};
+
+export function logout(username, password){
+    pubsub.publish(action(ACTIONS.LOG_OUT));
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-18"  >
+<hgroup class="">
+       <h2 class="nil ">Interpreting actions</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-18">
+<ul>
+<li>Having a pub-sub mechanism in place allows us to encapsulate state transition into small pieces
+</li>
+<li>These can listen for specific actions (or combinations of them) and affect the state accordingly
+</li>
+<li>This isolates logic into modular and testable units I call <em>effects</em>
+</li>
+</ul>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-19"  >
+<hgroup class="">
+       <h2 class="nil ">Effects (1/3)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-19">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+// effects.js
+export function logIn(publication, state) {
+    let loginChan = csp.chan();
+
+    publication.sub(ACTIONS.LOG_IN, loginChan);
+
+    csp.go(function*(){
+        let action = yield loginChan;
+
+        while (action !== csp.CLOSED) {
+            state.swap(st =&gt; st.set("user", action.get("payload")));
+            action = yield loginChan;
+        }
+    });
+    return loginChan;
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-20"  >
+<hgroup class="">
+       <h2 class="nil ">Effects (2/3)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-20">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+export function logOut(publication, state){
+    let logoutChan = csp.chan();
+
+    publication.sub(ACTIONS.LOG_OUT, logoutChan);
+
+    csp.go(function*(){
+        let action = yield logoutChan;
+
+        while (action !== csp.CLOSED) {
+            state.swap((st) =&gt; st.remove('user'))
+            action = yield logoutChan;
+        }
+    });
+    return logoutChan;
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-21"  >
+<hgroup class="">
+       <h2 class="nil ">Effects (3/3)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-21">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+class Effects {
+    start(publication, state){
+        this.chans = [
+            logIn(publication, state),
+            logOut(publication, state)
+        ];
+    },
+    stop(){
+        this.chans.map((ch) =&gt; ch.close());
+    }
+}
+
+export default new Effects();
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-22"  >
+<hgroup class="">
+       <h2 class="nil ">Putting it all together (1/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-22">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+import React from "react";
+import {cursor} from "kurtsore"
+import {App} from "./views";
+import {state} from "./state";
+import pubsub "./pubsub";
+import effects from "./effects";
+
+function render(state){
+    React.render(&lt;App state={state} /&gt;, document.querySelector("body"));
+};
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-1-6-23"  >
+<hgroup class="">
+       <h2 class="nil ">Putting it all together (2/2)</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-1-6-23">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="javascript">
+(function bootstrap(){
+    // View
+    render(cursor(state));
+    state.addWatch(() =&gt; render(cursor(state)));
+
+    // Pub-sub
+    let publication = pubsub.publication((ac) =&gt; ac.get("type"));
+
+    // Effects
+    effects.start(publication, state);
+})();
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+</slide>
+
+</slide>
+<slide id="sec-2" class=" segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/clojure-logo.png"></aside><hgroup class="">
+       <h2 class="nil ">Questions?</h2>
+       <h3></h3>
+       </hgroup>
+<article class="flexbox vleft auto-fadein" id="text-2">
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3" class=" thank-you-slide segue nobackground" style="background-image: url(nil)">
+<aside class="gdbar right"><img src="images/clojure-logo.png"></aside><article class="flexbox vleft auto-fadein" id="text-3">
+<h2>
+  <p>Thank You ˊ~ω~ˋ</p>
+</h2>
+<br>
+<p class="auto-fadein" data-config-contact>
+</p>
+</article>
+
+</slide>
+<slide class="backdrop"></slide>
+</slides>
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+
+</html>

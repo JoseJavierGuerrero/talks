@@ -1,0 +1,1064 @@
+#+TITLE: Ripping Off ClojureScript
+#+AUTHOR: Alejandro Gómez
+#+EMAIL: alejandro@dialelo.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+#+COMPANY: Kaleidos
+#+WWW: http://dialelo.github.io
+#+GITHUB: http://github.com/dialelo
+#+TWITTER: dialelo
+
+#+FAVICON: images/org-icon.png
+#+ICON: images/clojure-logo.png
+
+** Agenda
+
+- The problem with traditional JavaScript
+- What does Clojure(Script) bring to the table?
+- Stealing from ClojureScript
+ * Scoping
+ * Data & State
+ * Functional UIs with React
+ * Asynchrony & Communication
+- Recasting Flux
+
+#+BEGIN_QUOTE
+Good artists copy, great artists steal.\\
+
+      -- Pablo Picasso
+#+END_QUOTE
+
+** JavaScript
+
+- Little dynamic language
+- Traditionally used for enhancing websites with more interactivity
+- Websites have become traditional desktop *heavy clients*
+- Rigorous software engineering is needed for building web applications
+
+** JavaScript frameworks
+
+- [[https://twitter.com/NeckbeardHacker/status/569883173531873280][Churn]] in JS-land is ridiculous
+- Almost identical frameworks came out all the time
+ * Imperative
+ * Mutability as the default
+ * Imposed architecture
+ * Reimplementation of standalone functionality
+  + Models & Collections
+  + Routing
+  + Module systems
+  + HTTP clients
+
+** The problem with the language
+
+- Fundamental, unsolvable flaws
+- Many languages translate to JS
+ * Convenient syntax
+  + CoffeeScript
+  + Wisp
+ * Similar semantics
+  + Python
+ * Very different, reasonable semantics
+  + ClojureScript
+  + PureScript
+  + Elm
+
+** Patching JavaScript
+
+- This talk assumes you cannot escape JS, if you can, use ClojureScript
+- We can use ES6 and ES7 now with [[http://babeljs.io][Babel]]
+ * Maps and Sets
+ * Promises
+ * Generators
+ * Destructuring
+ * Default arguments
+ * ~arguments~ is dead, long live ~...~
+ * Tail call optimization
+ * Modules
+- ES6+ is a reasonable language for writing applications
+
+** What I ♥ about Clojure(Script)
+
+- Functional programming
+- State management
+- Immutability by default
+- Communicating Sequential Processes
+- Macros
+- Preference of composition of libraries over frameworks
+
+* Let's Steal!
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Scoping
+
+- JavaScript's ~var~ keyword has very tricky scoping rules
+- Assigning to a name without declaring with ~var~ creates a global name
+- ES6 introduces ~let~ and ~const~, don't use ~var~ again
+
+#+BEGIN_SRC clojurescript
+(let [x 21]
+  (* 2 x))
+#+END_SRC
+
+#+BEGIN_SRC javascript
+let x = 21;
+x * 2;
+#+END_SRC
+
+#+BEGIN_SRC clojurescript
+(def ^:const x 21)
+#+END_SRC
+
+#+BEGIN_SRC javascript
+const x = 21;
+#+END_SRC
+
+** Data & State
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+*** Mutable Old JavaScript Objects (MOJO)
+
+#+BEGIN_SRC javascript
+let state = {
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+};
+#+END_SRC
+
+- Can be changed from anywhere with a reference to it
+ * There's no telling where changes come from
+ * May transition to invalid value
+
+#+BEGIN_SRC javascript
+state.user.lastName = "Lovelace";
+#+END_SRC
+
+*** Immutable data structures
+
+- Memory and time efficient
+ * Structural sharing
+ * "Modified" with a few array lookups and copies
+- Equality checks are simple reference comparisons
+- Two major implementations
+ * [[https://github.com/swannodette/mori][mori]] brings ClojureScript data structures and supporting APIs to JS
+  + Fast & battle-tested
+  + Functional & rich API
+ * [[https://github.com/facebook/immutable-js][immutable-js]] is Facebook's implementation
+  + Slower than ~mori~
+  + Object-oriented API
+  + Supports custom record definitions
+
+*** Immutable data structures
+
+- I'll be using ~immutable-js~ for the custom record support
+
+#+BEGIN_SRC javascript
+import {fromJS} from "immutable";
+
+let state = fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+});
+#+END_SRC
+
+- Using the same patterns that with MOJOs is not much of an improvement
+
+#+BEGIN_SRC javascript
+state = state.setIn(["user", "lastName"], "Lovelace");
+#+END_SRC
+
+*** Models
+
+- Traditional JS frameworks wrap mutable objects in /models/
+ * Read and write
+ * Observation capabilities (or dirty checking)
+- Opaque data structures
+- Couple your data types and their transformation to the framework
+
+#+BEGIN_SRC javascript
+import {Model} from "backbone";
+
+const User = Model.extend({
+    realName() {
+        return `${this.get("firstName") ${this.get("lastName")}}`
+    }
+});
+#+END_SRC
+
+*** Modeling with Immutable data structures
+
+- ~immutable-js~ gives us a handful of data structures: ~Map~, ~Set~, ~List~ and more
+- We can model our data types with plain ~Map~
+
+#+BEGIN_SRC javascript
+import {Map as ImmutableMap} from immutable;
+
+let user = ImmutableMap({ firstName: "Ada", lastName: "Byron" });
+
+// :: ImmutableMap -> String
+function realName(u){
+    return `${u.get("firstName")} ${u.get("lastName")}`;
+}
+
+realName(user);
+//=> "Ada Byron"
+#+END_SRC
+
+*** Records
+
+- Like CLJS' ~defrecord~, ~immutable-js~ lets us define records
+- We can specify the set of legal keys and give them default values
+- Will throw an error if you try to ~set~ a key that isn't legal
+- Define read-only properties for plain old property access
+- Support adding methods to them (but don't do it)
+
+*** Records
+
+#+BEGIN_SRC javascript
+import {Record} from immutable;
+
+const User = Record({ firstName: "", lastName: "" });
+
+let user = new User({ firstName: "Grace", lastName: "Hopper" });
+
+// :: User -> String
+function realName(u){
+    return `${u.get("firstName")} ${u.get("lastName")}`;
+}
+
+realName(user);
+//=> "Grace Hopper"
+#+END_SRC
+
+*** From Models to the Atom
+
+- CLJ separates *identity* and *value* with reference types
+ * Each with its own semantics, only the [[http://clojure.org/atoms][Atom]] is available in CLJS
+- Atoms are mutable references to an immutable value
+ * The immutable value they point to may change over time
+- Support observation and validation
+- Ported to JavaScript in my [[https://github.com/dialelo/atomo][atomo]] library
+
+
+*** Atoms
+
+- We can represent time-varying values with atoms
+
+#+BEGIN_SRC javascript
+import {atom} from "atomo";
+import {fromJS} from "immutable";
+
+let state = atom(fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+}));
+
+state.swap(st => st.setIn(["user", "lastName"], "Lovelace"));
+#+END_SRC
+
+*** Atom API
+
+#+BEGIN_SRC javascript
+let a = atom(20);
+
+// We can get the value they point to with `deref`
+a.deref();
+//=> 20
+
+// We can change the value they point to with `reset`
+a.reset(21);
+a.deref();
+//=> 21
+
+// We can apply a transformation to the value they contain with `swap`
+a.swap(x => x * 2);
+a.deref();
+//=> 42
+#+END_SRC
+
+*** Atom API
+
+#+BEGIN_SRC javascript
+let a = atom(20);
+
+function watch(theAtom, oldVal, newVal) {
+    console.log("old:", oldVal, "new:", newVal)
+}
+
+a.addWatch(watch);
+
+a.reset(21);
+//=> "old: 20 new: 21"
+a.swap(x => x * 2);
+//=> "old: 21 new: 42"
+
+a.removeWatch(watch);
+#+END_SRC
+
+*** Remembering an Atom's history
+
+#+BEGIN_SRC javascript
+import {List} from "immutable";
+import {atom} from "atomo";
+
+let state = atom(fromJS({
+    user: {
+        firstName: "Ada",
+        lastName: "Byron"
+    }
+}));
+
+let history = atom(new List());
+
+state.addWatch((theAtom, oldValue, newValue) => {
+    history.swap(hs => hs.push(oldValue));
+});
+#+END_SRC
+
+** Functional UIs with React
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+*** React
+
+- A *library* for building user interfaces
+- Abstracts users from manual DOM manipulation
+- Allows us to create declarative visual components that compose very well
+- Compose components into a tree
+- Re-render every time the state changes (conceptually)
+
+#+BEGIN_SRC jsx
+import React from "react";
+
+const App = React.createClass({
+    render(){
+        return <p>Hello, React!</p>;
+    }
+});
+#+END_SRC
+
+*** React
+
+- ~render~ generates a data structure that represents the desired DOM state
+- Our views have turned into pure functions!
+#+BEGIN_SRC
+render(data) = view
+#+END_SRC
+- When re-rendering, React is able to diff such data structures
+- After diffing, it makes the minimum amount of changes to the real DOM
+#+BEGIN_SRC
+diff(view1, view2) = changeset
+#+END_SRC
+- Diffing works in both directions
+#+BEGIN_SRC
+diff(view2, view1) = changeset
+#+END_SRC
+
+*** React
+
+- Support passing properties (called ~props~) and local state
+#+BEGIN_SRC javascript
+import React from "react";
+
+const Greeting = React.createClass({
+    render(){
+        return <p>Hello, {this.props.name}!</p>;
+    }
+});
+
+React.render(<Greeting name="Ada" />, document.querySelector("body"));
+#+END_SRC
+- Our ~render~ function is in reality:
+#+BEGIN_SRC
+render(props, state) = view
+#+END_SRC
+
+*** React
+
+- We'll see how to combine React with our state management strategy in a moment
+- Here is a teaser:
+
+#+BEGIN_SRC javascript
+import React from "react";
+import {App} from "./views";
+
+function render(state){
+    React.render(<App state={state} />, document.querySelector("body"));
+}
+let initialState = /* ... */;
+render(initialState);
+// Call `render` with new state whenever it changes
+#+END_SRC
+
+** Error Handling
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+*** Promise
+
+- ES6 comes with the ~Promise~ type, which represents a eventual value
+- The computation for calculating such value may fail
+- Such computation may be asynchronous
+- A ~Promise~ is one of these states:
+  * /pending/: initial state
+  * /fulfilled/: the computation was succesful
+  * /rejected/: the computation failed
+  * /settled/: the computation is either fulfilled or rejected
+- ~Promise~ forms a monad so we can sequence promise-returning computations and get a ~Promise~ back
+- It's API may surprise you if you come from Haskell or Scala
+
+*** Promise basic API
+
+- ~Promise.then(onSuccess, onError)~ allows us to chain computations
+#+BEGIN_SRC javascript
+let p = new Promise((resolve, reject) => resolve(21))
+
+p.then(x => x * 2)
+ .then(y => console.log(y))
+//=> "42"
+#+END_SRC
+
+- ~Promise.catch(onError)~ allows us to handle rejected promises
+#+BEGIN_SRC javascript
+let p = new Promise((resolve, reject) => reject("I failed"))
+
+p.catch(err => console.log(err))
+//=> "I failed"
+#+END_SRC
+
+*** Promises: A practical example
+
+- Imagine the following ~Promise~-returning functions
+
+#+BEGIN_SRC javascript
+/*
+   type Username = String
+   type Password = String
+   type Token = String
+*/
+
+// :: Username -> Password -> Promise Token
+function getAuthToken(username, password) { /* ... */ }
+
+// :: Token -> Promise User
+function getUserInfo(token) { /* ... */ }
+#+END_SRC
+
+*** Promises: A practical example
+
+- We want to get a user's information and log its real name
+#+BEGIN_SRC javascript
+let username = "ada.byron",
+    password = "I invented programming";
+
+getAuthToken(username, password)
+    .then(token => getUserInfo(token)) // sequencing promise-returning computations
+    .then(user => realName(user))      // transforming value inside the promise
+    .then(name => console.log(name))
+    .catch(err => console.error(err))  // handling the error case
+#+END_SRC
+
+*** Promises: The problems
+
+- Force us to split our logic into small functions
+ * which are often unrelated and not reusable in other contexts
+ * to represent an atomic piece of logic that belongs together
+- Complect sequencing (~bind~ or ~flatMap~) with transformation (~map~)
+- Aren't that much of an improvement over Continuation Passing Style with callbacks and errbacks
+
+*** ES7 to the rescue
+
+- ~async~ and ~await~ keywords solve the logic obscuring problem
+
+#+BEGIN_SRC javascript
+async function logRealName(usr, pass){
+    let token = await getAuthToken(usr, pass),
+        user = await getUserInfo(token);
+    console.log(realName(user));
+}
+
+let username = "ada.byron",
+    password = "I invented programming";
+
+logRealName(username, password).catch(err => console.error(err));
+#+END_SRC
+
+- We can now compose computations that may be asynchronous and fail with a nice sequential syntax
+
+*** First-class errors
+
+- If a ~Promise~ is rejected inside an ~async~ function, the value is thrown inside the function
+ * This means that we can use ~try~ and ~catch~ inside ~async~ functions
+- Error handling inside computations obscure our logic too
+- We can reify the errors that can happen into uniquely identifiable *values* with ES6 ~Symbol~
+
+#+BEGIN_SRC javascript
+const ERRORS = {
+    MISSING_DATA: Symbol.for("missing-data"),
+    WRONG_CREDENTIALS: Symbol.for("wrong-credentials"),
+    NETWORK_ERROR: Symbol.for("network-error")
+};
+#+END_SRC
+
+*** First-class errors
+
+- We can compose logic without caring about errors that may happen
+- When executing computations that may fail in our system, the caller is responsible of handling success and failure
+- Since our errors are reified we can make decissions depending on the error we got
+- We could use plain JS ~Error~ instances for rejecting promises
+ * it has nice properties like capturing the stack (in some environments)
+- Another approach would be to make our own error type
+
+*** Error type
+
+- Given we implement the error type
+#+BEGIN_SRC javascript
+import {Record} from "immutable";
+
+const Err = Record({ code: null, data: null });
+
+function err(code, data) {
+    return new Err({ code, data });
+}
+#+END_SRC
+- We can ~reject~ promises with an ~Err~ value
+#+BEGIN_SRC javascript
+new Promise((resolve, reject) => reject(err(ERRORS.WRONG_CREDENTIALS)))
+#+END_SRC
+
+*** Interpreting errors
+
+- When running promise-returning computations, we can choose what to do based on the ~Err~ code
+#+BEGIN_SRC javascript
+// :: Err -> String
+function message(e) {
+    switch (e.code) {
+        case ERRORS.MISSING_DATA:
+            return "Username and password must be supplied";
+        case ERRORS.WRONG_CREDENTIALS:
+            return "Wrong username or password";
+        case ERRORS.NETWORK_ERROR:
+            return "There was a problem communicating with the server, try again";
+        default:
+            return "Impossible has happened";
+    }
+}
+#+END_SRC
+
+** Asynchrony & Communication
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+*** Communicating Sequential Processes
+
+- Based on [[http://es.wikipedia.org/wiki/C._A._R._Hoare][Tony Hoare's]] work
+- Mathematic formalism for concurrency
+- Great substrate for representing asynchronous computations
+- Popularized by [[https://golang.org][Go]] and Clojure(Script)
+- Available in JS with the [[https://github.com/ubolonton/js-csp][js-csp]] library
+
+*** Channels
+
+- First class queue-like objects
+- Multiple readers and writers
+ * can either take or put one value at a time
+- Twofold responsability:
+ * conveyance of values
+ * synchronization point
+- Decouple producers of values from consumers
+- Support multiple synchronization semantics through buffering
+
+*** What can channels do?
+
+- We can put and take values asynchronously
+#+BEGIN_SRC javascript
+import {chan, putAsync, takeAsync} from "js-csp";
+
+let ch = chan();
+
+takeAsync(ch, (value) => console.log("Got ", value));
+
+// `ch` now has a pending take, let's try putting a value in it
+putAsync(ch, 42);
+//=> "Got 42"
+#+END_SRC
+
+*** What can channels do?
+
+- Puts and takes can happen in any order
+#+BEGIN_SRC javascript
+import {chan, putAsync, takeAsync} from "js-csp";
+
+let ch = csp.chan();
+
+// Async puts accept a callback too
+putAsync(ch, 42, () => console.log("Just put 42"));
+putAsync(ch, 43, () => console.log("One more"));
+
+takeAsync(ch, (value) => console.log("Got ", value))
+//=> "Got 42"
+//=> "Just put 42"
+takeAsync(ch, (value) => console.log("Got ", value))
+//=> "Got 43"
+//=> "One more"x
+#+END_SRC
+
+*** Closing channels
+
+- Channels can be closed, after which
+ * pending puts will fail
+ * pending takes will receive a "closed" value
+
+#+BEGIN_SRC javascript
+import {chan, takeAsync, putAsync, CLOSED} from "js-csp";
+
+let ch = chan();
+
+takeAsync(ch, (value) => console.log("Channel closed? ", value === CLOSED));
+takeAsync(ch, (value) => console.log("Channel closed? ", value === CLOSED));
+
+putAsync(ch, 42);
+//=> "Channel closed? false"
+ch.close();
+//=> "Channel closed? true"
+#+END_SRC
+
+*** Processes
+
+- Piece of logic that uses channels for communication & synchronization
+- Puts and takes inside processes will "block" until the operation completes
+- There are a form of cooperative multitasking
+- We can create *thousands* and coordinate via channels
+
+*** Processes
+
+#+BEGIN_SRC javascript
+import {go, chan, put, take} from "js-csp";
+
+let ch = chan();
+
+go(function*(){
+    console.log("[a] Starting a goroutine");
+    let value = yield take(ch); // equivalent to 'yield ch'
+    console.log("[a] Got ", value);
+});
+go(function*(){
+    console.log("[b] Starting another goroutine");
+    yield put(ch, 42);
+});
+//=> "[a] Starting a goroutine"
+//=> "[b] Starting another goroutine"
+//=> "[a] Got 42"
+#+END_SRC
+
+*** Choice
+
+- Given multiple channnel operations, we can perform a non-deterministic choice between them
+- Only one operation will succeed
+- In case various operations are ready to be performed, it'll be chosen pseudo-randomly by default
+- Combined with ~js-csp~'s ~timeout~ function, we can can execute operations on a channel if they are fast enough
+
+*** Timeout (1/2)
+
+- Our fist ~go~ block will wait a second before putting a value into ~ch~
+#+BEGIN_SRC javascript
+import {chan, go, timeout, put, alts} from "js-csp";
+
+let ch = chan();
+
+go(function*(){
+    console.log("[a] Gonna sleep for a second");
+    yield timeout(1000);
+    console.log("[a] Now I'm ready to put a value");
+    yield put(ch, 42);
+});
+#+END_SRC
+
+*** Timeout (2/2)
+
+- The second ~go~ block will wait at most 300 miliseconds for a value on ~ch~
+#+BEGIN_SRC javascript
+go(function*(){
+    let cancel = timeout(300);
+
+    // `alts` returns an object with the channel on which the operation has been
+    // performed and its result
+    let {channel, result} = yield alts([ch, cancel]);
+
+    if (channel === cancel) console.log("[b] Too slow, take was cancelled");
+    else                    console.log("[b] Got ", result);
+});
+//=> "[a] Gonna sleep for a second"
+//=> "[a] Now I'm ready to put a value"
+//=> "[b] Too slow, take was cancelled"
+#+END_SRC
+
+** Recasting Flux
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+*** Flux
+
+#+BEGIN_CENTER
+#+ATTR_HTML: :width 800px :height 400px
+[[file:./images/flux-diagram.png]]
+#+END_CENTER
+
+*** Flux in a nutshell
+
+- *Views* read data from *Stores* and represent it, updating themselves when stores change
+- *Views* trigger *Actions*, which have a type and an optional payload
+- A *Dispatcher* fans-out actions to the *Stores*
+- *Stores* respond to actions modifying their state
+
+*** Flux flaws
+
+- It complects state management and the bussiness logic for causing state changes
+- State is scattered through multiple stores which look modular but they end up
+  knowing about each other
+- The stores are coupled with the dispatching mechanism
+
+*** From Stores to Global Immutable State
+
+- Instead of having multiple stores, we represent application state in a global atom like in [[https://github.com/omcljs/om][Om]]
+- Such atom contains an immutable map, wherein keys can represent different domains of the application
+- Atom are observable, which allows us to trigger a re-render when they are changed
+#+BEGIN_SRC javascript
+// state.js
+import {atom} from "atomo";
+
+function getInitialState() { /* ... */ }
+
+export const state = atom(getInitialState());
+#+END_SRC
+
+*** Global state breaks modularity
+
+- We don't want views to know about the shape of all the state
+- Views usually display a subset of the global state tree
+- We need the ability to focus on paths inside the global immutable state
+- Om solves this problem with an abstraction called [[https://github.com/omcljs/om/wiki/Cursors][Cursor]]
+
+*** Cursors
+
+- Lets us focus on a path inside the global immutable state
+- Can be derived from an atom or another cursor, allowing us to refine the path
+- Available in JS with my [[https://github.com/dialelo/kurtsore][kurtsore]] library
+
+#+BEGIN_SRC javascript
+import {cursor} from "kurtsore";
+import {is} from "immutable";
+
+let c = cursor(state),
+    albums = c.derive('albums'),
+    playlists = c.derive('playlists');
+is(albums.deref(), state.deref().get('albums'));
+//=> true
+is(playlists.deref(), state.deref().get('playlists'));
+//=> true
+#+END_SRC
+
+*** Views & Cursors
+
+- Cursors save a snapshot of the state they point to when they are created
+ * if we re-create cursors in each re-render, we can implement a very efficient ~shouldComponentUpdate~
+  + see my [[https://github.com/dialelo/react-kurtsore][react-kurtsore]] library
+- Feed a cursor without a path to the top-level component
+- Refine it when passing it to sub-components
+
+*** Views & Cursor: A practical example (1/2)
+
+- We have a view that represents *one* album, receiving a cursor
+#+BEGIN_SRC javascript
+// views.js
+import React from "react";
+import {CursorPropsMixin} from "react-kurtsore";
+
+export const Album = React.createClass({
+    mixins: [ CursorPropsMixin ],
+
+    render(){
+        let album = this.props.album.deref();
+        return <li>{album.get('artist')} - {album.get('title')}</li>;
+    }
+});
+#+END_SRC
+
+*** Views & Cursor: A practical example (2/2)
+
+- The top-level ~Albums~ view passes refined cursors to ~Album~ components
+#+BEGIN_SRC javascript
+export const Albums = React.createClass({
+    mixins: [ CursorPropsMixin ],
+
+    render(){
+        let albums = this.props.albums.deref(),
+            cursors = albums.map((a, idx) => this.props.albums.derive(idx));
+        return (
+            <ul>
+                {cursors.map((a, idx) => <Album key={idx} album={a} />)}
+            </ul>
+        );
+    }
+});
+#+END_SRC
+
+*** Actions
+
+- As in Flux, actions can be identified with unique constant values
+- Like with the errors, we can either use strings or ES6 symbols
+#+BEGIN_SRC javascript
+//  constants.js
+export const ACTIONS = {
+    LOG_IN: Symbol.for("user:log-in"),
+    LOG_IN_FAILED: Symbol.for("user:log-in-failed"),
+    LOG_OUT: Symbol.for("user:log-out")
+};
+#+END_SRC
+
+*** Actions
+
+- We can represent actions as a data type with an optional payload
+#+BEGIN_SRC javascript
+// actions.js
+import {Record} from "immutable";
+
+export const Action = Record({type: null, payload: null});
+
+export function action(type, payload){
+    return new Action({type, payload});
+};
+#+END_SRC
+
+*** Getting rid of the Dispatcher
+
+- In Flux: a singleton coupled to stores for triggering state transitions
+- Differ from a pub-sub mechanism in that they fan-out every action to all stores
+- I suggest replacing the dispatcher with CSP-based pub-sub mechanism
+ * /publisher/: A channel where the actions are published
+ * /publication/: A object derived from the /publisher/ with a topic-extracting function
+
+*** Pub-sub with CSP
+
+- Given a publication and a topic, we can provide a channel wherein values with such topic will be published
+#+BEGIN_SRC javascript
+// pubsub.js
+import {atom} from "atomo";
+import {chan, operations, putAsync} from "js-csp";
+
+export const publisher = atom(chan());
+
+export function publication(topicFn){
+    return operations.pub.publication(publisher.deref(), topicFn);
+};
+
+export function publish(msg){
+    putAsync(publisher.deref(), msg);
+};
+#+END_SRC
+
+*** Subscribing to actions (1/2)
+
+- We create a channel where we'll receive the actions we're insterested in
+- We create a publication that will dispatch on the action type
+ * We subscribe our channel to the actions we want to listen
+#+BEGIN_SRC javascript
+import csp from "js-csp";
+import pubsub from "./pubsub";
+import {ACTIONS} from "./constants";
+
+let userChan = csp.chan(),
+    pub = pubsub.publication((v) => v.get("type"));
+
+pub.sub(ACTIONS.LOG_IN, userChan);
+pub.sub(ACTIONS.LOG_OUT, userChan);
+#+END_SRC
+
+*** Subscribing to actions (2/2)
+
+- Once we are subscribed to the relevant actions, we can spawn a process for *interpreting* such actions
+#+BEGIN_SRC javascript
+csp.go(function*(){
+    let action = yield userChan;
+    while (action !== csp.CLOSED) {
+        let {type, payload} = action;
+
+        if (type === ACTIONS.LOG_IN) console.log(payload, " just logged in.")
+        else                         console.log("The user just logged out.");
+
+        action = yield userChan;
+    }
+});
+#+END_SRC
+
+*** Publishing actions
+
+- Views shouldn't be coupled to the pub-sub machinery
+- Also, since some actions may require asynchronous computations, we encapsulate action publishing in high-level API
+ * Flux calls this action creations
+- We also gain the benefit of testing views in isolation, asserting that they consume our high-level APIs in a certain way
+
+*** Publishing actions
+
+#+BEGIN_SRC javascript// authentication.js
+import {ACTIONS} from "./constants";
+import {action} from "./actions";
+import pubsub from "./pubsub";
+import http from "./http";
+import {fromJS} from "immutable";
+
+export function tryLogIn(username, password){
+    http.post("/login", {username, password})
+        .then((user) => pubsub.publish(action(ACTIONS.LOG_IN, fromJS(user))))
+        .catch((errors) => pubsub.publish(action(ACTIONS.LOG_IN_FAILED, fromJS(errors))))
+};
+
+export function logout(username, password){
+    pubsub.publish(action(ACTIONS.LOG_OUT));
+};
+#+END_SRC
+
+*** Interpreting actions
+
+- Having a pub-sub mechanism in place allows us to encapsulate state transition into small pieces
+- These can listen for specific actions (or combinations of them) and affect the state accordingly
+- This isolates logic into modular and testable units I call /effects/
+
+*** Effects (1/3)
+
+#+BEGIN_SRC javascript
+// effects.js
+export function logIn(publication, state) {
+    let loginChan = csp.chan();
+
+    publication.sub(ACTIONS.LOG_IN, loginChan);
+
+    csp.go(function*(){
+        let action = yield loginChan;
+
+        while (action !== csp.CLOSED) {
+            state.swap(st => st.set("user", action.get("payload")));
+            action = yield loginChan;
+        }
+    });
+    return loginChan;
+};
+#+END_SRC
+
+*** Effects (2/3)
+
+#+BEGIN_SRC javascript
+export function logOut(publication, state){
+    let logoutChan = csp.chan();
+
+    publication.sub(ACTIONS.LOG_OUT, logoutChan);
+
+    csp.go(function*(){
+        let action = yield logoutChan;
+
+        while (action !== csp.CLOSED) {
+            state.swap((st) => st.remove('user'))
+            action = yield logoutChan;
+        }
+    });
+    return logoutChan;
+};
+#+END_SRC
+
+*** Effects (3/3)
+
+#+BEGIN_SRC javascript
+class Effects {
+    start(publication, state){
+        this.chans = [
+            logIn(publication, state),
+            logOut(publication, state)
+        ];
+    },
+    stop(){
+        this.chans.map((ch) => ch.close());
+    }
+}
+
+export default new Effects();
+#+END_SRC
+
+*** Putting it all together (1/2)
+
+#+BEGIN_SRC javascript
+import React from "react";
+import {cursor} from "kurtsore"
+import {App} from "./views";
+import {state} from "./state";
+import pubsub "./pubsub";
+import effects from "./effects";
+
+function render(state){
+    React.render(<App state={state} />, document.querySelector("body"));
+};
+#+END_SRC
+
+*** Putting it all together (2/2)
+
+#+BEGIN_SRC javascript
+(function bootstrap(){
+    // View
+    render(cursor(state));
+    state.addWatch(() => render(cursor(state)));
+
+    // Pub-sub
+    let publication = pubsub.publication((ac) => ac.get("type"));
+
+    // Effects
+    effects.start(publication, state);
+})();
+#+END_SRC
+
+* Questions?
+
+:PROPERTIES:
+:SLIDE: segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+:END:
+
+* Thank You ˊ~ω~ˋ
+
+:PROPERTIES:
+:SLIDE: thank-you-slide segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+:END:
