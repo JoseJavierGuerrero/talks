@@ -37,6 +37,9 @@ Good artists copy, great artists steal.\\
 #+END_QUOTE
 
 ** JavaScript
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Little dynamic language
 - Traditionally used for enhancing websites with more interactivity
@@ -44,6 +47,9 @@ Good artists copy, great artists steal.\\
 - Rigorous software engineering is needed for building web applications
 
 ** JavaScript frameworks
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - [[https://twitter.com/NeckbeardHacker/status/569883173531873280][Churn]] in JS-land is ridiculous
 - Almost identical frameworks came out all the time
@@ -85,6 +91,9 @@ Good artists copy, great artists steal.\\
 - ES6+ is a reasonable language for writing applications
 
 ** What I ♥ about Clojure(Script)
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Functional programming
 - State management
@@ -224,6 +233,9 @@ realName(user);
 #+END_SRC
 
 *** Records
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Like CLJS' ~defrecord~, ~immutable-js~ lets us define records
 - We can specify the set of legal keys and give them default values
@@ -250,6 +262,7 @@ realName(user);
 #+END_SRC
 
 *** From Models to the Atom
+
 
 - CLJ separates *identity* and *value* with reference types
  * Each with its own semantics, only the [[http://clojure.org/atoms][Atom]] is available in CLJS
@@ -486,6 +499,9 @@ getAuthToken(username, password)
 #+END_SRC
 
 *** Promises: The problems
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Force us to split our logic into small functions
  * which are often unrelated and not reusable in other contexts
@@ -513,6 +529,9 @@ logRealName(username, password).catch(err => console.error(err));
 - We can now compose computations that may be asynchronous and fail with a nice sequential syntax
 
 *** First-class errors
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - If a ~Promise~ is rejected inside an ~async~ function, the value is thrown inside the function
  * This means that we can use ~try~ and ~catch~ inside ~async~ functions
@@ -580,6 +599,9 @@ function message(e) {
   :END:
 
 *** Communicating Sequential Processes
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Based on [[http://es.wikipedia.org/wiki/C._A._R._Hoare][Tony Hoare's]] work
 - Mathematic formalism for concurrency
@@ -588,6 +610,9 @@ function message(e) {
 - Available in JS with the [[https://github.com/ubolonton/js-csp][js-csp]] library
 
 *** Channels
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - First class queue-like objects
 - Multiple readers and writers
@@ -654,6 +679,9 @@ ch.close();
 #+END_SRC
 
 *** Processes
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Piece of logic that uses channels for communication & synchronization
 - Puts and takes inside processes will "block" until the operation completes
@@ -682,6 +710,9 @@ go(function*(){
 #+END_SRC
 
 *** Choice
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Given multiple channnel operations, we can perform a non-deterministic choice between them
 - Only one operation will succeed
@@ -738,6 +769,9 @@ go(function*(){
 #+END_CENTER
 
 *** Flux in a nutshell
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - *Views* read data from *Stores* and represent it, updating themselves when stores change
 - *Views* trigger *Actions*, which have a type and an optional payload
@@ -745,6 +779,9 @@ go(function*(){
 - *Stores* respond to actions modifying their state
 
 *** Flux flaws
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - It complects state management and the bussiness logic for causing state changes
 - State is scattered through multiple stores which look modular but they end up
@@ -766,6 +803,9 @@ export const state = atom(getInitialState());
 #+END_SRC
 
 *** Global state breaks modularity
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - We don't want views to know about the shape of all the state
 - Views usually display a subset of the global state tree
@@ -792,6 +832,9 @@ is(playlists.deref(), state.deref().get('playlists'));
 #+END_SRC
 
 *** Views & Cursors
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Cursors save a snapshot of the state they point to when they are created
  * if we re-create cursors in each re-render, we can implement a very efficient ~shouldComponentUpdate~
@@ -864,6 +907,9 @@ export function action(type, payload){
 #+END_SRC
 
 *** Getting rid of the Dispatcher
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - In Flux: a singleton coupled to stores for triggering state transitions
 - Differ from a pub-sub mechanism in that they fan-out every action to all stores
@@ -925,6 +971,9 @@ csp.go(function*(){
 #+END_SRC
 
 *** Publishing actions
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Views shouldn't be coupled to the pub-sub machinery
 - Also, since some actions may require asynchronous computations, we encapsulate action publishing in high-level API
@@ -952,6 +1001,9 @@ export function logout(username, password){
 #+END_SRC
 
 *** Interpreting actions
+  :PROPERTIES:
+  :ARTICLE: larger
+  :END:
 
 - Having a pub-sub mechanism in place allows us to encapsulate state transition into small pieces
 - These can listen for specific actions (or combinations of them) and affect the state accordingly

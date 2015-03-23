@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-03-23 lun 13:25 -->
+<!-- 2015-03-23 lun 18:35 -->
 <meta  charset="utf-8">
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1">
 <meta  name="generator" content="Org-mode with org-ioslide">
@@ -85,7 +85,8 @@ Good artists copy, great artists steal.<br >
        <h2 class="nil ">JavaScript</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-0-2">
+<article class="larger" id="text-0-2">
+
 <ul>
 <li>Little dynamic language
 </li>
@@ -108,7 +109,8 @@ Good artists copy, great artists steal.<br >
        <h2 class="nil ">JavaScript frameworks</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-0-3">
+<article class="larger" id="text-0-3">
+
 <ul>
 <li><a href="https://twitter.com/NeckbeardHacker/status/569883173531873280">Churn</a> in JS-land is ridiculous
 </li>
@@ -231,7 +233,8 @@ Good artists copy, great artists steal.<br >
        <h2 class="nil ">What I ♥ about Clojure(Script)</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-0-6">
+<article class="larger" id="text-0-6">
+
 <ul>
 <li>Functional programming
 </li>
@@ -549,7 +552,8 @@ realName(user);
        <h2 class="nil ">Records</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-2-6">
+<article class="larger" id="text-1-2-6">
+
 <ul>
 <li>Like CLJS' <code>defrecord</code>, <code>immutable-js</code> lets us define records
 </li>
@@ -1098,7 +1102,8 @@ getAuthToken(username, password)
        <h2 class="nil ">Promises: The problems</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-4-5">
+<article class="larger" id="text-1-4-5">
+
 <ul>
 <li>Force us to split our logic into small functions
 <ul>
@@ -1164,7 +1169,8 @@ logRealName(username, password).catch(err =&gt; console.error(err));
        <h2 class="nil ">First-class errors</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-4-7">
+<article class="larger" id="text-1-4-7">
+
 <ul>
 <li>If a <code>Promise</code> is rejected inside an <code>async</code> function, the value is thrown inside the function
 <ul>
@@ -1320,7 +1326,8 @@ function message(e) {
        <h2 class="nil ">Communicating Sequential Processes</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-5-1">
+<article class="larger" id="text-1-5-1">
+
 <ul>
 <li>Based on <a href="http://es.wikipedia.org/wiki/C._A._R._Hoare">Tony Hoare's</a> work
 </li>
@@ -1345,7 +1352,8 @@ function message(e) {
        <h2 class="nil ">Channels</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-5-2">
+<article class="larger" id="text-1-5-2">
+
 <ul>
 <li>First class queue-like objects
 </li>
@@ -1490,7 +1498,8 @@ ch.close();
        <h2 class="nil ">Processes</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-5-6">
+<article class="larger" id="text-1-5-6">
+
 <ul>
 <li>Piece of logic that uses channels for communication &amp; synchronization
 </li>
@@ -1548,7 +1557,8 @@ go(function*(){
        <h2 class="nil ">Choice</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-5-8">
+<article class="larger" id="text-1-5-8">
+
 <ul>
 <li>Given multiple channnel operations, we can perform a non-deterministic choice between them
 </li>
@@ -1673,7 +1683,8 @@ go(function*(){
        <h2 class="nil ">Flux in a nutshell</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-2">
+<article class="larger" id="text-1-6-2">
+
 <ul>
 <li><strong>Views</strong> read data from <strong>Stores</strong> and represent it, updating themselves when stores change
 </li>
@@ -1696,7 +1707,8 @@ go(function*(){
        <h2 class="nil ">Flux flaws</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-3">
+<article class="larger" id="text-1-6-3">
+
 <ul>
 <li>It complects state management and the bussiness logic for causing state changes
 </li>
@@ -1751,7 +1763,8 @@ export const state = atom(getInitialState());
        <h2 class="nil ">Global state breaks modularity</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-5">
+<article class="larger" id="text-1-6-5">
+
 <ul>
 <li>We don't want views to know about the shape of all the state
 </li>
@@ -1812,7 +1825,8 @@ is(playlists.deref(), state.deref().get('playlists'));
        <h2 class="nil ">Views &amp; Cursors</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-7">
+<article class="larger" id="text-1-6-7">
+
 <ul>
 <li>Cursors save a snapshot of the state they point to when they are created
 <ul>
@@ -1974,7 +1988,8 @@ export function action(type, payload){
        <h2 class="nil ">Getting rid of the Dispatcher</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-12">
+<article class="larger" id="text-1-6-12">
+
 <ul>
 <li>In Flux: a singleton coupled to stores for triggering state transitions
 </li>
@@ -2109,7 +2124,8 @@ csp.go(function*(){
        <h2 class="nil ">Publishing actions</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-16">
+<article class="larger" id="text-1-6-16">
+
 <ul>
 <li>Views shouldn't be coupled to the pub-sub machinery
 </li>
@@ -2168,7 +2184,8 @@ export function logout(username, password){
        <h2 class="nil ">Interpreting actions</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-1-6-18">
+<article class="larger" id="text-1-6-18">
+
 <ul>
 <li>Having a pub-sub mechanism in place allows us to encapsulate state transition into small pieces
 </li>
