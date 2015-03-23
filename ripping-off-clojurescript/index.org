@@ -255,9 +255,9 @@ realName(user);
  * Each with its own semantics, only the [[http://clojure.org/atoms][Atom]] is available in CLJS
 - Atoms are mutable references to an immutable value
  * The immutable value they point to may change over time
+ * For a great paper on the value and object distinction, see [[http://web.eecs.utk.edu/~mclennan/papers/VOPL.pdf][Values and Objects in Programming Languages]]
 - Support observation and validation
 - Ported to JavaScript in my [[https://github.com/dialelo/atomo][atomo]] library
-
 
 *** Atoms
 
