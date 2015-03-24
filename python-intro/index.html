@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-03-24 mar 23:29 -->
+<!-- 2015-03-24 mar 23:59 -->
 <meta  charset="utf-8">
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1">
 <meta  name="generator" content="Org-mode with org-ioslide">
@@ -1140,8 +1140,243 @@ print(l)
 </slide>
 
 </slide>
+<slide id="sec-4-6"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-6">
+<ol>
+<li>Abrid el fichero <code>koans/about_lists.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
 
 
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-7"  >
+<hgroup class="">
+       <h2 class="nil ">Diccionarios</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-7">
+<ul>
+<li>Las listas son probablemente el tipo más usado de Python
+</li>
+<li>Se pueden construir con <code>dict</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+dict()
+#=&gt; {}
+</pre>
+
+</div>
+<ul>
+<li>También podemos representarlos con un literal entre llaves, con pares clave-valor separados por coma
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+{ "hello": "hola", "bye": "adiós" }
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-8"  >
+<hgroup class="">
+       <h2 class="nil ">Diccionarios</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-8">
+<ul>
+<li>Podemos acceder a elementos por clave
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "hola", "bye": "adiós" }
+print(l["hello"])
+#=&gt; "hola"
+print(l["bye"])
+#=&gt; "adios"
+</pre>
+
+</div>
+<ul>
+<li>Podemos asignar valores a claves
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "kaixo" }
+d["bye"] = "agur"
+print(l["bye"])
+#=&gt; "agur"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-9"  >
+<hgroup class="">
+       <h2 class="nil ">Diccionarios</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-9">
+<ul>
+<li>Podemos obtener todas sus claves
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "hola", "bye": "adiós" }
+print(d.keys())
+#=&gt; ["hello", "bye"]
+</pre>
+
+</div>
+<ul>
+<li>Y valores
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "hola", "bye": "adiós" }
+print(d.values())
+#=&gt; ["hola", "adiós"]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-10"  >
+<hgroup class="">
+       <h2 class="nil ">Diccionarios</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-10">
+<ul>
+<li>Podemos comprobar si contienen una clave con el operador <code>in</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "hola", "bye": "adiós" }
+print("hello" in d)
+#=&gt; True
+print("see you later" in d)
+#=&gt; False
+</pre>
+
+</div>
+<ul>
+<li>Y obtener los pares clave-valor
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+d = { "hello": "hola", "bye": "adiós" }
+print(d.items())
+#=&gt; [("bye", "adiós"), ("hello", "hola")]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-11"  >
+<hgroup class="">
+       <h2 class="nil ">Diccionarios</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-11">
+<ol>
+<li>Abrid el fichero <code>koans/about_dictionaries.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
+
+
+</slide>
+<slide id="sec-4-12"  >
+<hgroup class="">
+       <h2 class="nil ">Tuplas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-12">
+<ol>
+<li>Abrid el fichero <code>koans/about_tuples.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-13"  >
+<hgroup class="">
+       <h2 class="nil ">Conjuntos</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-13">
+<ol>
+<li>Abrid el fichero <code>koans/about_sets.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
+
+</slide>
 
 </slide>
 <slide id="sec-5" class=" segue dark quote nobackground" style="background-image: url(nil)">

@@ -468,7 +468,89 @@ print(l)
 #=> ["Hello", "Python"]
 #+END_SRC
 
+** Listas
 
+1. Abrid el fichero ~koans/about_lists.py~
+2. Comenzad vuestro camino a la iluminación
+
+** Diccionarios
+
+- Las listas son probablemente el tipo más usado de Python
+- Se pueden construir con ~dict~
+#+BEGIN_SRC python
+dict()
+#=> {}
+#+END_SRC
+- También podemos representarlos con un literal entre llaves, con pares clave-valor separados por coma
+#+BEGIN_SRC python
+{ "hello": "hola", "bye": "adiós" }
+#+END_SRC
+
+** Diccionarios
+
+- Podemos acceder a elementos por clave
+#+BEGIN_SRC python
+d = { "hello": "hola", "bye": "adiós" }
+print(l["hello"])
+#=> "hola"
+print(l["bye"])
+#=> "adios"
+#+END_SRC
+- Podemos asignar valores a claves
+#+BEGIN_SRC python
+d = { "hello": "kaixo" }
+d["bye"] = "agur"
+print(l["bye"])
+#=> "agur"
+#+END_SRC
+
+** Diccionarios
+
+- Podemos obtener todas sus claves
+#+BEGIN_SRC python
+d = { "hello": "hola", "bye": "adiós" }
+print(d.keys())
+#=> ["hello", "bye"]
+#+END_SRC
+- Y valores
+#+BEGIN_SRC python
+d = { "hello": "hola", "bye": "adiós" }
+print(d.values())
+#=> ["hola", "adiós"]
+#+END_SRC
+
+** Diccionarios
+
+- Podemos comprobar si contienen una clave con el operador ~in~
+#+BEGIN_SRC python
+d = { "hello": "hola", "bye": "adiós" }
+print("hello" in d)
+#=> True
+print("see you later" in d)
+#=> False
+#+END_SRC
+- Y obtener los pares clave-valor
+#+BEGIN_SRC python
+d = { "hello": "hola", "bye": "adiós" }
+print(d.items())
+#=> [("bye", "adiós"), ("hello", "hola")]
+#+END_SRC
+
+** Diccionarios
+
+1. Abrid el fichero ~koans/about_dictionaries.py~
+2. Comenzad vuestro camino a la iluminación
+
+
+** Tuplas
+
+1. Abrid el fichero ~koans/about_tuples.py~
+2. Comenzad vuestro camino a la iluminación
+
+** Conjuntos
+
+1. Abrid el fichero ~koans/about_sets.py~
+2. Comenzad vuestro camino a la iluminación
 
 * Lambdas
   :PROPERTIES:
