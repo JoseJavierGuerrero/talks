@@ -541,11 +541,76 @@ print(d.items())
 1. Abrid el fichero ~koans/about_dictionaries.py~
 2. Comenzad vuestro camino a la iluminación
 
+** Tuplas
+
+- Son inmutables
+- Se pueden construir con ~tuple~
+#+BEGIN_SRC python
+tuple()
+#=>
+#+END_SRC
+- También podemos representarlas con un literal entre paréntesis
+#+BEGIN_SRC python
+("Hello", "Python", "tuples")
+#+END_SRC
+
+** Tuplas
+
+- Para desambiguar las expresiones entre paréntesis de las tuplas de un elemento hemos de añadirles una coma al final
+#+BEGIN_SRC python
+print((1))
+#=> 1
+print((1,))
+#=> (1,)
+#+END_SRC
 
 ** Tuplas
 
 1. Abrid el fichero ~koans/about_tuples.py~
 2. Comenzad vuestro camino a la iluminación
+
+** Conjuntos
+
+- Se pueden construir con ~set~
+#+BEGIN_SRC python
+set()
+#=> set()
+#+END_SRC
+- También podemos representarlas con una secuencia de valores entre llaves
+#+BEGIN_SRC python
+{"Hello", "Python", "sets"}
+#+END_SRC
+
+** Conjuntos
+
+- Podemos comprobar si contienen un valor con el operador ~in~
+#+BEGIN_SRC python
+s = {1, 2, 3}
+print(4 in s)
+#=> False
+print(1 in s)
+#=> True
+#+END_SRC
+
+** Conjuntos
+
+- Sobrecargan operadores para implementar operaciones sobre conjuntos
+#+BEGIN_SRC python
+scotsmen = {'MacLeod', 'Wallace', 'Willie'}
+warriors = {'MacLeod', 'Wallace', 'Leonidas'}
+
+# diferencia
+scotsmen - warriors
+
+# unión
+scotsmen | warriors
+
+# intersección
+scotsmen & warriors
+
+# diferencia simétrica
+scotsmen ^ warriors
+#+END_SRC
 
 ** Conjuntos
 

@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-03-24 mar 23:59 -->
+<!-- 2015-03-25 mié 00:34 -->
 <meta  charset="utf-8">
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1">
 <meta  name="generator" content="Org-mode with org-ioslide">
@@ -1337,7 +1337,6 @@ print(d.items())
 
 </slide>
 
-
 </slide>
 <slide id="sec-4-12"  >
 <hgroup class="">
@@ -1345,6 +1344,71 @@ print(d.items())
        <h3></h3>
        </hgroup>
 <article class="" id="text-4-12">
+<ul>
+<li>Son inmutables
+</li>
+<li>Se pueden construir con <code>tuple</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+tuple()
+#=&gt;
+</pre>
+
+</div>
+<ul>
+<li>También podemos representarlas con un literal entre paréntesis
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+("Hello", "Python", "tuples")
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-13"  >
+<hgroup class="">
+       <h2 class="nil ">Tuplas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-13">
+<ul>
+<li>Para desambiguar las expresiones entre paréntesis de las tuplas de un elemento hemos de añadirles una coma al final
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+print((1))
+#=&gt; 1
+print((1,))
+#=&gt; (1,)
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-14"  >
+<hgroup class="">
+       <h2 class="nil ">Tuplas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-14">
 <ol>
 <li>Abrid el fichero <code>koans/about_tuples.py</code>
 </li>
@@ -1358,12 +1422,113 @@ print(d.items())
 </slide>
 
 </slide>
-<slide id="sec-4-13"  >
+<slide id="sec-4-15"  >
 <hgroup class="">
        <h2 class="nil ">Conjuntos</h2>
        <h3></h3>
        </hgroup>
-<article class="" id="text-4-13">
+<article class="" id="text-4-15">
+<ul>
+<li>Se pueden construir con <code>set</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+set()
+#=&gt; set()
+</pre>
+
+</div>
+<ul>
+<li>También podemos representarlas con una secuencia de valores entre llaves
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+{"Hello", "Python", "sets"}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-16"  >
+<hgroup class="">
+       <h2 class="nil ">Conjuntos</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-16">
+<ul>
+<li>Podemos comprobar si contienen un valor con el operador <code>in</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+s = {1, 2, 3}
+print(4 in s)
+#=&gt; False
+print(1 in s)
+#=&gt; True
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-17"  >
+<hgroup class="">
+       <h2 class="nil ">Conjuntos</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-17">
+<ul>
+<li>Sobrecargan operadores para implementar operaciones sobre conjuntos
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+scotsmen = {'MacLeod', 'Wallace', 'Willie'}
+warriors = {'MacLeod', 'Wallace', 'Leonidas'}
+
+# diferencia
+scotsmen - warriors
+
+# unión
+scotsmen | warriors
+
+# intersección
+scotsmen &amp; warriors
+
+# diferencia simétrica
+scotsmen ^ warriors
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-18"  >
+<hgroup class="">
+       <h2 class="nil ">Conjuntos</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-18">
 <ol>
 <li>Abrid el fichero <code>koans/about_sets.py</code>
 </li>
