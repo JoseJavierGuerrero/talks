@@ -529,9 +529,6 @@ logRealName(username, password).catch(err => console.error(err));
 - We can now compose computations that may be asynchronous and fail with a nice sequential syntax
 
 *** First-class errors
-  :PROPERTIES:
-  :ARTICLE: larger
-  :END:
 
 - If a ~Promise~ is rejected inside an ~async~ function, the value is thrown inside the function
  * This means that we can use ~try~ and ~catch~ inside ~async~ functions
