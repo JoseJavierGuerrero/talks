@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-03-24 mar 22:51 -->
+<!-- 2015-03-24 mar 23:29 -->
 <meta  charset="utf-8">
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1">
 <meta  name="generator" content="Org-mode with org-ioslide">
@@ -683,6 +683,256 @@ None.foo
 </article>
 
 </slide>
+<slide id="sec-3-1"  >
+<hgroup class="">
+       <h2 class="nil ">if/else</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-1">
+<ul>
+<li>Es muy parecido al <code>if/else</code> en cualquier otro lenguaje
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+if True:
+    print("True is True OMG")
+else:
+    print("Not gonna run")
+#=&gt; "True is True OMG"
+</pre>
+
+</div>
+<ul>
+<li>La rama <code>else</code> es opcional
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+if False:
+    print("Not gonna run")
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-2"  >
+<hgroup class="">
+       <h2 class="nil ">if/else</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-2">
+<ul>
+<li>Se pueden combinar varias condiciones secuenciales con <code>elif</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+if False:
+    print("Not gonna run")
+elif False:
+    print("Not gonna run either")
+elif False:
+    print("Neither do I")
+else:
+    print("Who needs a switch statement?")
+#=&gt; "Who needs a switch statement?"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-3"  >
+<hgroup class="">
+       <h2 class="nil ">while</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-3">
+<ul>
+<li>Es muy parecido al <code>while</code> en cualquier otro lenguaje
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+i = 0
+while i != 42:
+    print("Inside the while")
+    i = 42
+
+print("We're done")
+#=&gt; "Inside the while"
+#=&gt; "We're done"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-4"  >
+<hgroup class="">
+       <h2 class="nil ">while</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-4">
+<ul>
+<li>Podemos salir del bucle con <code>break</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+i = 0
+while i != 42:
+    print(i)
+    if i == 1: break
+    i = i + 1
+
+print("We're done")
+#=&gt; 0
+#=&gt; 1
+#=&gt; "We're done"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-5"  >
+<hgroup class="">
+       <h2 class="nil ">while</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-5">
+<ul>
+<li>Podemos obviar el resto del bucle con <code>continue</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+i = 0
+while i &lt; 3:
+    i = i + 1
+    if i == 2: continue
+    print(i)
+
+print("We're done")
+#=&gt; 1
+#=&gt; 3
+#=&gt; "We're done"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-6"  >
+<hgroup class="">
+       <h2 class="nil ">for</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-6">
+<ul>
+<li>Nos permite iterar directamente sobre los elementos de un iterable
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+for food in ["pizza", "burguers", "omelette"]:
+    print("I like " + food)
+#=&gt; "I like pizza"
+#=&gt; "I like burguers"
+#=&gt; "I like omelette"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-7"  >
+<hgroup class="">
+       <h2 class="nil ">for</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-7">
+<ul>
+<li>La iteración no está limita a un elemento
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+food_valorations = (
+   ("pizza", "is good"),
+   ("burguer", "is rad"),
+   ("salad", "sucks")
+)
+for food, valoration in food_valorations:
+    print(food + " " + valoration)
+#=&gt; "pizza is good"
+#=&gt; "burguer is rad"
+#=&gt; "salad sucks"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-3-8"  >
+<hgroup class="">
+       <h2 class="nil ">Control de flujo</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-3-8">
+<ol>
+<li>Abrid el fichero <code>koans/about_control_statements.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
+
+</slide>
+
 </slide>
 <slide id="sec-4" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/python-logo.png"></aside><hgroup class="">
@@ -695,6 +945,204 @@ None.foo
 </article>
 
 </slide>
+<slide id="sec-4-1"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-1">
+<ul>
+<li>Las listas son uno de los tipos más usados de Python
+</li>
+<li>Se pueden construir con <code>list</code>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+list()
+#=&gt; []
+</pre>
+
+</div>
+<ul>
+<li>También podemos representarlas con un literal entre corchetes
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+["Hello", "Python", "lists"]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-2"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-2">
+<ul>
+<li>Podemos acceder a elementos por índice
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "Python", "lists"]
+print(l[0])
+#=&gt; "Hello"
+print(l[1])
+#=&gt; "Python"
+</pre>
+
+</div>
+<ul>
+<li>Soportan índices negativos
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "Python", "lists"]
+print(l[-1])
+#=&gt; "lists"
+print(l[-2])
+#=&gt; "Python"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-3"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-3">
+<ul>
+<li>Podemos seleccionar rangos
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "Python", "lists"]
+print(l[0:])
+#=&gt; ["Hello", "Python", "lists"]
+print(l[1:])
+#=&gt; ["Python", "lists"]
+print(l[1:2])
+#=&gt; ["Python"]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-4"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-4">
+<ul>
+<li>Soportan inserción en posiciones arbitrarias
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "Python", "lists"]
+l.insert(0, "Hey")
+print(l)
+#=&gt; ["Hey", "Hello", "Python", "lists"]
+</pre>
+
+</div>
+<ul>
+<li>Y adiciones por el final
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello"]
+l.append("Python")
+print(l)
+#=&gt; ["Hello", "Python"]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-4-5"  >
+<hgroup class="">
+       <h2 class="nil ">Listas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-4-5">
+<ul>
+<li>Podemos extraer elementos del final
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "Python"]
+print(l.pop())
+#=&gt; "Python"
+print(l)
+#=&gt; ["Hello"]
+</pre>
+
+</div>
+<ul>
+<li>O de cualquier posición
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+l = ["Hello", "there", "Python"]
+print(l.pop(1))
+#=&gt; "there"
+print(l)
+#=&gt; ["Hello", "Python"]
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+
+
+
 </slide>
 <slide id="sec-5" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/python-logo.png"></aside><hgroup class="">
