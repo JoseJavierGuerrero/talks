@@ -1,0 +1,306 @@
+#+TITLE: Introducción a Python
+#+AUTHOR: Alejandro Gómez
+#+EMAIL: alejandro@dialelo.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:nil p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:nil todo:t |:t
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: es
+#+SELECT_TAGS: export
+
+#+COMPANY: Kaleidos
+#+WWW: http://dialelo.github.io
+#+GITHUB: http://github.com/dialelo
+#+TWITTER: dialelo
+
+#+FAVICON: images/python-icon.png
+#+ICON: images/python-logo.png
+
+** ¿Qué es Python?
+
+- [[https://www.python.org/- ][Python]] es un lenguaje de programación
+ * interpretado
+ * interactivo
+ * dinámico
+ * de propósito general
+ * multi paradigma
+ * que viene con pilas incluídas
+- Creado por [[http://es.wikipedia.org/wiki/Guido_van_Rossum][Guido Van Rossum]] en 1991
+- Nombrado en honor al grupo de humoristas [[http://es.wikipedia.org/wiki/Monty_Python][Monty Python]]
+
+#+BEGIN_SRC python
+print("¡Hola Python!")
+#+END_SRC
+
+** Interpretado e interactivo
+
+- Python es un [[http://en.wikipedia.org/wiki/Interpreted_language][lenguaje interpretado]]
+- El compilador de Python emite /bytecode/ que su máquina virtual interpreta
+- Viene instalado en todos los UNIX modernos
+- Podemos desarrollar de forma interactiva en el [[http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop][REPL]]
+
+#+BEGIN_SRC shell
+python
+# una vez en el intérprete, ejecutad `import this`
+#+END_SRC
+
+** Dinámico
+
+- No es necesario declarar variables ni sus tipos
+- Si queremos usar una variable, le asignamos un valor
+
+#+BEGIN_SRC python
+meaning_of_life = 42
+print("What is the meaning of life, Universe and everything?")
+#=> "What is the meaning of life, Universe and everything?"
+print(meaning_of_life)
+#=> 42
+#+END_SRC
+
+- Reasignar un valor a una variable existente la sobreescribe
+
+#+BEGIN_SRC python
+meaning_of_life = "MONEY DOLLAR$$$$$"
+print(meaning_of_life)
+#=> "MONEY DOLLAR$$$$$"
+#+END_SRC
+
+** De propósito general
+
+- Es un lenguaje *simple* y *legible*
+- Se utiliza en ámbitos muy variados
+ * Computación científica
+ * Programación de videojuegos
+ * Desarrollo web
+ * Aplicaciones de escritorio
+ * Aplicaciones móviles
+ * Microcontroladores
+ * …
+
+** Multi paradigma
+
+- Programación procedural
+- Orientación a objetos
+ * En Python *todo* es un objeto
+  + instancias
+  + tipos
+  + módulos
+- Programación funcional
+
+* Aquí hemos venido a jugar
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Preparándonos para el taller
+
+1. Descargad el repositorio: https://github.com/dialelo/python_koans
+2. Entrad en el directorio ~python3~
+3. Ejecutad el script ~run.sh~, o ~run.bat~ si usáis Windows
+4. Os dará un error, abrimos el fichero ~koans/about_asserts.py~
+5. Comenzad vuestro camino a la iluminación
+
+* Tipos de datos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+** Booleanos
+
+- ~True~ y ~False~
+ * son objetos /singleton/
+#+BEGIN_SRC python
+True is True
+#=> True
+False is False
+#=> True
+True == True
+#=> True
+False == False
+#=> True
+True == False
+#=> False
+False == True
+#=> False
+#+END_SRC
+
+** Booleanos
+
+- Muchos objetos en Python pueden usarse en contextos en que se espera un booleano
+#+BEGIN_SRC python
+if 42:
+    print("Life!")
+#=> "Life!"
+
+if not(0):
+    print("0 is falsy")
+#=> "0 is falsy"
+
+if not(""):
+    print("Empty string is falsy")
+#=> "Empty string is falsy"
+#+END_SRC
+
+** Booleanos
+
+- Las colecciones vacías en Python son tratadas como ~False~
+#+BEGIN_SRC python
+if not([]): print("Empty list")
+#=> "Empty list"
+
+if not(()): print("Empty tuple")
+#=> "Empty tuple"
+
+if not({}): print("Empty dict")
+#=> "Empty dict"
+
+if not(set()): print("Empty set")
+#=> "Empty set"
+#+END_SRC
+
+** Booleanos
+
+1. Abrid el fichero ~koans/about_true_and_false.py~
+2. Comenzad vuestro camino a la iluminación
+
+** Strings
+
+- Se pueden delimitar con una comilla doble o simple a cada lado
+#+BEGIN_SRC python
+"Hello, world."
+'Hello, world.'
+#+END_SRC
+- También puedes usar tres comillas
+#+BEGIN_SRC python
+"""Hello, world."""
+'''Hello, world.'''
+#+END_SRC
+- Las strings /raw/ tienen distintas reglas de escapado de caracters
+#+BEGIN_SRC python
+r"Raw string"
+#+END_SRC
+
+** Strings
+
+- La barra invertida en los strings sirve como caracter de escape
+#+BEGIN_SRC python
+"They said \"no\""
+#+END_SRC
+- También sirve para continuar un string en la línea siguiente
+#+BEGIN_SRC python
+"Hello, \
+world."
+#+END_SRC
+
+** Strings
+
+- Las triples comillas nos permiten tener strings multi línea
+#+BEGIN_SRC python
+"""
+Beautiful is better than ugly.
+Explicit is better than implicit.
+"""
+#+END_SRC
+- Además necesitan menos escapado
+#+BEGIN_SRC python
+"""Hello, "world"."""
+#+END_SRC
+
+** Strings
+
+- El operador ~+~ sirve para concatenar strings
+#+BEGIN_SRC python
+hello = "Hello"
+world = "world"
+print(hello + ", " + world + ".")
+#=> "Hello, world."
+#+END_SRC
+- Podemos obtener la longitud de un string con la función ~len~
+#+BEGIN_SRC python
+hello = "Hello"
+print(len(hello))
+#=> 5
+#+END_SRC
+
+** Strings
+
+1. Abrid el fichero ~koans/about_strings.py~
+2. Comenzad vuestro camino a la iluminación
+
+** None
+
+- Representa la ausencia de valor
+- También se le conoce como
+ * ~null~ en Java o JavaScript
+ * ~nil~ el Lisp o Ruby
+- En Python no es un /valor/, es un objeto
+- Como ~True~ y ~False~ es un /singleton/, sólo existe uno
+#+BEGIN_SRC python
+None is None
+#=> True
+#+END_SRC
+
+** None
+
+- Si intentamos acceder a un atributo, lanzará una excepción ~AttributeError~
+#+BEGIN_SRC python
+None.foo
+#=>
+#  Traceback (most recent call last):
+#   File "<stdin>", line 1, in <module>
+# AttributeError: 'NoneType' object has no attribute 'foo'
+#+END_SRC
+- Es distinto a cualquier valor salvo ~None~
+
+** None
+
+1. Abrid el fichero ~koans/about_none.py~
+2. Comenzad vuestro camino a la iluminación
+
+* Control de flujo
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+* Colecciones
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+* Lambdas
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+* Programación orientada a objetos
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+* Iteradores, comprensiones y generadores
+  :PROPERTIES:
+  :SLIDE:    segue dark quote
+  :ASIDE:    right bottom
+  :ARTICLE:  flexbox vleft auto-fadein
+  :END:
+
+* Gracias ˊ~ω~ˋ
+
+:PROPERTIES:
+:SLIDE: thank-you-slide segue
+:ASIDE: right
+:ARTICLE: flexbox vleft auto-fadein
+:END:
