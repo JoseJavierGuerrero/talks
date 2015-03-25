@@ -532,7 +532,7 @@ print(l)
      :ARTICLE: larger
    :END:
 
-- Las listas son probablemente el tipo más usado de Python
+- Los diccionarios son probablemente el tipo más usado de Python
 - Se pueden construir con ~dict~
 #+BEGIN_SRC python
 dict()
@@ -548,16 +548,16 @@ dict()
 - Podemos acceder a elementos por clave
 #+BEGIN_SRC python
 d = { "hello": "hola", "bye": "adiós" }
-print(l["hello"])
+print(d["hello"])
 #=> "hola"
-print(l["bye"])
+print(d["bye"])
 #=> "adios"
 #+END_SRC
 - Podemos asignar valores a claves
 #+BEGIN_SRC python
 d = { "hello": "kaixo" }
 d["bye"] = "agur"
-print(l["bye"])
+print(d["bye"])
 #=> "agur"
 #+END_SRC
 
