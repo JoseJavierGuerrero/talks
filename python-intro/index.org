@@ -617,12 +617,74 @@ scotsmen ^ warriors
 1. Abrid el fichero ~koans/about_sets.py~
 2. Comenzad vuestro camino a la iluminación
 
-* Lambdas
+* Funciones
   :PROPERTIES:
   :SLIDE:    segue dark quote
   :ASIDE:    right bottom
   :ARTICLE:  flexbox vleft auto-fadein
   :END:
+
+** Funciones
+
+- Se definen con ~def~
+- Pueden recibir argumentos posicionales
+#+BEGIN_SRC python
+def add(x, y):
+    return x + y
+print(add(21, 21))
+#=> 42
+#+END_SRC
+- Pueden recibir un número arbitrario de argumentos posicionales
+#+BEGIN_SRC python
+def count(*args):
+    "Return a count of the number of arguments passed."
+    return len(args)
+print(count(0, 1, 2))
+#=> 3
+#+END_SRC
+
+** Funciones
+
+- Los parámetros pueden tener valores por defecto
+#+BEGIN_SRC python
+def greet(name="Python"):
+    print("Hello, " + name ".")
+greet()
+#=> "Hello, Python."
+greet("UMA")
+#=> "Hello, UMA."
+#+END_SRC
+
+** Funciones
+
+- Pueden recibir parámetros por nombre
+ * al llamar a funciones con argumentos por nombre, el orden es irrelevante
+#+BEGIN_SRC python
+def greet(greeting="Hello", name="Python"):
+    print(greeting + ", " + name ".")
+greet()
+#=> "Hello, Python."
+greet(greeting="Hola")
+#=> "Hola, Python."
+greet(name="UMA", greeting="Hola")
+#=> "Hola, UMA."
+#+END_SRC
+
+** Lambdas
+
+- Funciones anónimas
+- Sólo pueden contener una expresión
+- ~return~ implícito
+#+BEGIN_SRC python
+inc = lambda x: x + 1
+print(inc(10))
+#=> 11
+#+END_SRC
+
+** Lambdas
+
+1. Abrid el fichero ~koans/about_lambdas.py~
+2. Comenzad vuestro camino a la iluminación
 
 * Programación orientada a objetos
   :PROPERTIES:
@@ -630,6 +692,125 @@ scotsmen ^ warriors
   :ASIDE:    right bottom
   :ARTICLE:  flexbox vleft auto-fadein
   :END:
+
+** Clases
+
+- Se definen con ~class~
+- Se instancian llamando a su nombre con paréntesis al final, como si llamáramos a una función
+#+BEGIN_SRC python
+class Cat:
+    "Feline master race."
+
+felix = Cat()
+#+END_SRC
+
+** Clases
+
+- El método ~__init__~ se llama al instanciar una clase
+- Se puede acceder a todos los atributos y métodos
+ * por convención, los atributos y métodos privados se prefijan con ~_~
+- Los métodos de una clase reciben la instancia sobre la que se ejecutan como primer argumento
+#+BEGIN_SRC python
+class Cat:
+    def __init__(self, name):
+        self._name = name
+
+felix = Cat("Felix")
+print(felix._name)
+#=> "Felix"
+#+END_SRC
+
+** Clases
+
+- Almacenan los atributos en un diccionario interno al que podemos acceder
+#+BEGIN_SRC python
+class Cat:
+    def __init__(self, name):
+        self._name = name
+
+felix = Cat("Felix")
+print(felix.__dict__)
+#=> {'_name': 'Felix'}
+#+END_SRC
+
+** Clases: propiedades
+
+- Podemos definir propiedas en las clases, similar a los /getters/ y /setters/ en Java
+#+BEGIN_SRC python
+class Cat:
+    def __init__(self):
+        self._name = None
+
+    def set_name(self, name):
+        print("Setting name")
+        self._name = name
+
+    def get_name(self):
+        print("Getting name")
+        return self._name
+
+    name = property(get_name, set_name)
+#+END_SRC
+
+** Clases: propiedades
+
+#+BEGIN_SRC python
+felix = Cat("Felix")
+print(felix.name)
+#=> "Getting name"
+#=> "Felix"
+
+felix.name = "Felix 2"
+#=> "Setting name"
+
+print(felix.name)
+#=> "Getting name"
+#=> "Felix 2"
+#+END_SRC
+
+** Clases: propiedades
+
+- Podemos usar decoradores para definir propiedades de forma más concisa
+#+BEGIN_SRC python
+class Cat:
+    def __init__(self):
+        self._name = None
+
+    @property
+    def name(self):
+        print("Getting name")
+        return self._name
+
+    @name.setter
+    def set_name(self, name):
+        print("Setting name")
+        self._name = name
+#+END_SRC
+
+** Clases
+
+- Podemos definir métodos especiales para reproducir una instancia o convertirla a un string
+#+BEGIN_SRC python
+class Cat:
+   def __init__(self, name):
+        self._name = name
+   def __repr__(self):
+        return "<Cat named '" + self._name + "'>"
+   def __str__(self):
+       return self._name
+
+felix = Cat("Felix")
+print(felix)
+#=> "Felix"
+print(repr(felix))
+#=> "<Cat named 'Felix'>"
+
+#+END_SRC
+
+** Clases
+
+1. Abrid el fichero ~koans/about_classes.py~
+2. Comenzad vuestro camino a la iluminación
 
 * Iteradores, comprensiones y generadores
   :PROPERTIES:

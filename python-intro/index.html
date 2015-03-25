@@ -2,7 +2,7 @@
 <html>
 <head>
 <title></title>
-<!-- 2015-03-25 mié 00:34 -->
+<!-- 2015-03-25 mié 08:44 -->
 <meta  charset="utf-8">
 <meta  htto-equiv="X-UA-Compatible" content="chrome=1">
 <meta  name="generator" content="Org-mode with org-ioslide">
@@ -1546,13 +1546,170 @@ scotsmen ^ warriors
 </slide>
 <slide id="sec-5" class=" segue dark quote nobackground" style="background-image: url(nil)">
 <aside class="gdbar right bottom"><img src="images/python-logo.png"></aside><hgroup class="">
-       <h2 class="nil ">Lambdas</h2>
+       <h2 class="nil ">Funciones</h2>
        <h3></h3>
        </hgroup>
 <article class="flexbox vleft auto-fadein" id="text-5">
 
 
 </article>
+
+</slide>
+<slide id="sec-5-1"  >
+<hgroup class="">
+       <h2 class="nil ">Funciones</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-1">
+<ul>
+<li>Se definen con <code>def</code>
+</li>
+<li>Pueden recibir argumentos posicionales
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+def add(x, y):
+    return x + y
+print(add(21, 21))
+#=&gt; 42
+</pre>
+
+</div>
+<ul>
+<li>Pueden recibir un número arbitrario de argumentos posicionales
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+def count(*args):
+    "Return a count of the number of arguments passed."
+    return len(args)
+print(count(0, 1, 2))
+#=&gt; 3
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-5-2"  >
+<hgroup class="">
+       <h2 class="nil ">Funciones</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-2">
+<ul>
+<li>Los parámetros pueden tener valores por defecto
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+def greet(name="Python"):
+    print("Hello, " + name ".")
+greet()
+#=&gt; "Hello, Python."
+greet("UMA")
+#=&gt; "Hello, UMA."
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-5-3"  >
+<hgroup class="">
+       <h2 class="nil ">Funciones</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-3">
+<ul>
+<li>Pueden recibir parámetros por nombre
+<ul>
+<li>al llamar a funciones con argumentos por nombre, el orden es irrelevante
+</li>
+</ul>
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+def greet(greeting="Hello", name="Python"):
+    print(greeting + ", " + name ".")
+greet()
+#=&gt; "Hello, Python."
+greet(greeting="Hola")
+#=&gt; "Hola, Python."
+greet(name="UMA", greeting="Hola")
+#=&gt; "Hola, UMA."
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-5-4"  >
+<hgroup class="">
+       <h2 class="nil ">Lambdas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-4">
+<ul>
+<li>Funciones anónimas
+</li>
+<li>Sólo pueden contener una expresión
+</li>
+<li><code>return</code> implícito
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+inc = lambda x: x + 1
+print(inc(10))
+#=&gt; 11
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-5-5"  >
+<hgroup class="">
+       <h2 class="nil ">Lambdas</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-5-5">
+<ol>
+<li>Abrid el fichero <code>koans/about_lambdas.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
 
 </slide>
 
@@ -1566,6 +1723,260 @@ scotsmen ^ warriors
 
 
 </article>
+
+</slide>
+<slide id="sec-6-1"  >
+<hgroup class="">
+       <h2 class="nil ">Clases</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-1">
+<ul>
+<li>Se definen con <code>class</code>
+</li>
+<li>Se instancian llamando a su nombre con paréntesis al final, como si llamáramos a una función
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+    "Feline master race."
+
+felix = Cat()
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-2"  >
+<hgroup class="">
+       <h2 class="nil ">Clases</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-2">
+<ul>
+<li>El método <code>__init__</code> se llama al instanciar una clase
+</li>
+<li>Se puede acceder a todos los atributos y métodos
+<ul>
+<li>por convención, los atributos y métodos privados se prefijan con <code>_</code>
+</li>
+</ul>
+</li>
+<li>Los métodos de una clase reciben la instancia sobre la que se ejecutan como primer argumento
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+    def __init__(self, name):
+        self._name = name
+
+felix = Cat("Felix")
+print(felix._name)
+#=&gt; "Felix"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-3"  >
+<hgroup class="">
+       <h2 class="nil ">Clases</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-3">
+<ul>
+<li>Almacenan los atributos en un diccionario interno al que podemos acceder
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+    def __init__(self, name):
+        self._name = name
+
+felix = Cat("Felix")
+print(felix.__dict__)
+#=&gt; {'_name': 'Felix'}
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-4"  >
+<hgroup class="">
+       <h2 class="nil ">Clases: propiedades</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-4">
+<ul>
+<li>Podemos definir propiedas en las clases, similar a los <em>getters</em> y <em>setters</em> en Java
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+    def __init__(self):
+        self._name = None
+
+    def set_name(self, name):
+        print("Setting name")
+        self._name = name
+
+    def get_name(self):
+        print("Getting name")
+        return self._name
+
+    name = property(get_name, set_name)
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-5"  >
+<hgroup class="">
+       <h2 class="nil ">Clases: propiedades</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-5">
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+felix = Cat("Felix")
+print(felix.name)
+#=&gt; "Getting name"
+#=&gt; "Felix"
+
+felix.name = "Felix 2"
+#=&gt; "Setting name"
+
+print(felix.name)
+#=&gt; "Getting name"
+#=&gt; "Felix 2"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-6"  >
+<hgroup class="">
+       <h2 class="nil ">Clases: propiedades</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-6">
+<ul>
+<li>Podemos usar decoradores para definir propiedades de forma más concisa
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+    def __init__(self):
+        self._name = None
+
+    @property
+    def name(self):
+        print("Getting name")
+        return self._name
+
+    @name.setter
+    def set_name(self, name):
+        print("Setting name")
+        self._name = name
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-7"  >
+<hgroup class="">
+       <h2 class="nil ">Clases</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-7">
+<ul>
+<li>Podemos definir métodos especiales para reproducir una instancia o convertirla a un string
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="prettyprint" data-lang="python">
+class Cat:
+   def __init__(self, name):
+        self._name = name
+   def __repr__(self):
+        return "&lt;Cat named '" + self._name + "'&gt;"
+   def __str__(self):
+       return self._name
+
+felix = Cat("Felix")
+print(felix)
+#=&gt; "Felix"
+print(repr(felix))
+#=&gt; "&lt;Cat named 'Felix'&gt;"
+</pre>
+
+</div>
+
+
+</article>
+
+</slide>
+
+</slide>
+<slide id="sec-6-8"  >
+<hgroup class="">
+       <h2 class="nil ">Clases</h2>
+       <h3></h3>
+       </hgroup>
+<article class="" id="text-6-8">
+<ol>
+<li>Abrid el fichero <code>koans/about_classes.py</code>
+</li>
+<li>Comenzad vuestro camino a la iluminación
+</li>
+</ol>
+
+
+</article>
+
+</slide>
 
 </slide>
 
