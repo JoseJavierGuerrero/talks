@@ -36,16 +36,19 @@ print("¡Hola Python!")
 #+END_SRC
 
 ** Interpretado e interactivo
+  :PROPERTIES:
+   :ARTICLE: larger
+  :END:
 
 - Python es un [[http://en.wikipedia.org/wiki/Interpreted_language][lenguaje interpretado]]
 - El compilador de Python emite /bytecode/ que su máquina virtual interpreta
 - Viene instalado en todos los UNIX modernos
 - Podemos desarrollar de forma interactiva en el [[http://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop][REPL]]
-
+- Ejecutad el siguiente comando
 #+BEGIN_SRC shell
 python
-# una vez en el intérprete, ejecutad `import this`
 #+END_SRC
+- Una vez en el intérprete, ejecutad ~import this~
 
 ** Dinámico
 
@@ -69,6 +72,9 @@ print(meaning_of_life)
 #+END_SRC
 
 ** De propósito general
+  :PROPERTIES:
+   :ARTICLE: large
+  :END:
 
 - Es un lenguaje *simple* y *legible*
 - Se utiliza en ámbitos muy variados
@@ -81,6 +87,9 @@ print(meaning_of_life)
  * …
 
 ** Multi paradigma
+  :PROPERTIES:
+   :ARTICLE: large
+  :END:
 
 - Programación procedural
 - Orientación a objetos
@@ -98,6 +107,9 @@ print(meaning_of_life)
   :END:
 
 ** Preparándonos para el taller
+  :PROPERTIES:
+   :ARTICLE: large
+  :END:
 
 1. Descargad el repositorio: https://github.com/dialelo/python_koans
 2. Entrad en el directorio ~python3~
@@ -166,6 +178,9 @@ if not(set()): print("Empty set")
 #+END_SRC
 
 ** Booleanos
+  :PROPERTIES:
+   :ARTICLE: large
+  :END:
 
 1. Abrid el fichero ~koans/about_true_and_false.py~
 2. Comenzad vuestro camino a la iluminación
@@ -182,12 +197,15 @@ if not(set()): print("Empty set")
 """Hello, world."""
 '''Hello, world.'''
 #+END_SRC
-- Las strings /raw/ tienen distintas reglas de escapado de caracters
+- Las strings /raw/ tienen distintas reglas de escapado de caracteres
 #+BEGIN_SRC python
 r"Raw string"
 #+END_SRC
 
 ** Strings
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - La barra invertida en los strings sirve como caracter de escape
 #+BEGIN_SRC python
@@ -200,6 +218,9 @@ world."
 #+END_SRC
 
 ** Strings
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Las triples comillas nos permiten tener strings multi línea
 #+BEGIN_SRC python
@@ -235,6 +256,9 @@ print(len(hello))
 2. Comenzad vuestro camino a la iluminación
 
 ** None
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Representa la ausencia de valor
 - También se le conoce como
@@ -248,6 +272,9 @@ None is None
 #+END_SRC
 
 ** None
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Si intentamos acceder a un atributo, lanzará una excepción ~AttributeError~
 #+BEGIN_SRC python
@@ -288,6 +315,9 @@ if False:
 #+END_SRC
 
 ** if/else
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Se pueden combinar varias condiciones secuenciales con ~elif~
 #+BEGIN_SRC python
@@ -303,6 +333,9 @@ else:
 #+END_SRC
 
 ** while
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Es muy parecido al ~while~ en cualquier otro lenguaje
 #+BEGIN_SRC python
@@ -317,6 +350,9 @@ print("We're done")
 #+END_SRC
 
 ** while
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Podemos salir del bucle con ~break~
 #+BEGIN_SRC python
@@ -333,6 +369,9 @@ print("We're done")
 #+END_SRC
 
 ** while
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Podemos obviar el resto del bucle con ~continue~
 #+BEGIN_SRC python
@@ -349,6 +388,9 @@ print("We're done")
 #+END_SRC
 
 ** for
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - Nos permite iterar directamente sobre los elementos de un iterable
 #+BEGIN_SRC python
@@ -360,6 +402,9 @@ for food in ["pizza", "burguers", "omelette"]:
 #+END_SRC
 
 ** for
+  :PROPERTIES:
+    :ARTICLE: larger
+  :END:
 
 - La iteración no está limita a un elemento
 #+BEGIN_SRC python
@@ -388,6 +433,9 @@ for food, valoration in food_valorations:
   :END:
 
 ** Listas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Las listas son uno de los tipos más usados de Python
 - Se pueden construir con ~list~
@@ -420,14 +468,20 @@ print(l[-2])
 #+END_SRC
 
 ** Listas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Podemos seleccionar rangos
 #+BEGIN_SRC python
 l = ["Hello", "Python", "lists"]
+
 print(l[0:])
 #=> ["Hello", "Python", "lists"]
+
 print(l[1:])
 #=> ["Python", "lists"]
+
 print(l[1:2])
 #=> ["Python"]
 #+END_SRC
@@ -474,6 +528,9 @@ print(l)
 2. Comenzad vuestro camino a la iluminación
 
 ** Diccionarios
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Las listas son probablemente el tipo más usado de Python
 - Se pueden construir con ~dict~
@@ -505,6 +562,9 @@ print(l["bye"])
 #+END_SRC
 
 ** Diccionarios
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Podemos obtener todas sus claves
 #+BEGIN_SRC python
@@ -542,6 +602,9 @@ print(d.items())
 2. Comenzad vuestro camino a la iluminación
 
 ** Tuplas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Son inmutables
 - Se pueden construir con ~tuple~
@@ -555,6 +618,9 @@ tuple()
 #+END_SRC
 
 ** Tuplas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Para desambiguar las expresiones entre paréntesis de las tuplas de un elemento hemos de añadirles una coma al final
 #+BEGIN_SRC python
@@ -570,6 +636,9 @@ print((1,))
 2. Comenzad vuestro camino a la iluminación
 
 ** Conjuntos
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Se pueden construir con ~set~
 #+BEGIN_SRC python
@@ -582,12 +651,17 @@ set()
 #+END_SRC
 
 ** Conjuntos
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Podemos comprobar si contienen un valor con el operador ~in~
 #+BEGIN_SRC python
 s = {1, 2, 3}
+
 print(4 in s)
 #=> False
+
 print(1 in s)
 #=> True
 #+END_SRC
@@ -644,13 +718,18 @@ print(count(0, 1, 2))
 #+END_SRC
 
 ** Funciones
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Los parámetros pueden tener valores por defecto
 #+BEGIN_SRC python
 def greet(name="Python"):
     print("Hello, " + name ".")
+
 greet()
 #=> "Hello, Python."
+
 greet("UMA")
 #=> "Hello, UMA."
 #+END_SRC
@@ -662,21 +741,28 @@ greet("UMA")
 #+BEGIN_SRC python
 def greet(greeting="Hello", name="Python"):
     print(greeting + ", " + name ".")
+
 greet()
 #=> "Hello, Python."
+
 greet(greeting="Hola")
 #=> "Hola, Python."
+
 greet(name="UMA", greeting="Hola")
 #=> "Hola, UMA."
 #+END_SRC
 
 ** Lambdas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Funciones anónimas
 - Sólo pueden contener una expresión
 - ~return~ implícito
 #+BEGIN_SRC python
 inc = lambda x: x + 1
+
 print(inc(10))
 #=> 11
 #+END_SRC
@@ -694,6 +780,9 @@ print(inc(10))
   :END:
 
 ** Clases
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Se definen con ~class~
 - Se instancian llamando a su nombre con paréntesis al final, como si llamáramos a una función
@@ -721,6 +810,9 @@ print(felix._name)
 #+END_SRC
 
 ** Clases
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Almacenan los atributos en un diccionario interno al que podemos acceder
 #+BEGIN_SRC python
@@ -756,6 +848,7 @@ class Cat:
 
 #+BEGIN_SRC python
 felix = Cat("Felix")
+
 print(felix.name)
 #=> "Getting name"
 #=> "Felix"
@@ -838,6 +931,9 @@ print(next(it))
 #+END_SRC
 
 ** Funciones sobre iteradores
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - ~map~ toma una función y un iterable y aplica dicha función a cada elemento devolviendo un iterador
 #+BEGIN_SRC python
@@ -853,6 +949,9 @@ list(incremented)
 #+END_SRC
 
 ** Funciones sobre iteradores
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - ~filter~ toma un predicado y un iterable y filtra del iterable los elementos que cumplan el predicado
 #+BEGIN_SRC python
@@ -950,6 +1049,9 @@ print([(x, y) for x in xs for y in ys])
 #+END_SRC
 
 ** Comprensiones
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Hemos visto que podemos generar listas por comprensión pero también podemos generar conjuntos
 #+BEGIN_SRC python
@@ -960,6 +1062,9 @@ print({x for x in xs})
 #+END_SRC
 
 ** Comprensiones
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - También los diccionarios pueden ser generados por comprensión
 #+BEGIN_SRC python
@@ -996,6 +1101,9 @@ next(gen)
 #+END_SRC
 
 ** Generadores
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Se puede iterar sobre los generadores sólo una vez
 #+BEGIN_SRC python
@@ -1060,6 +1168,9 @@ coro.send(42)
 #+END_SRC
 
 ** Corutinas
+   :PROPERTIES:
+     :ARTICLE: larger
+   :END:
 
 - Al terminar una corutina lanza ~StopIteration~, como cualquier iterador
 #+BEGIN_SRC python
